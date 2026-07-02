@@ -1,0 +1,25 @@
+name: Deploy Supabase Migrations
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch (e.g. master) if different
+    paths:
+      - 'supabase/migrations/**' # Only runs when you add/edit migration files
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy Migrations to Live Database
+        run: |
+          supabase db push --db-url "${{ secrets.SUPABASE_DB_URL }}"
