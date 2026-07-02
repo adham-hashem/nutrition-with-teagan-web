@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main  # Change this to your default branch (e.g. master) if different
-    paths:
-      - 'supabase/migrations/**' # Only runs when you add/edit migration files
 
 jobs:
   deploy:
