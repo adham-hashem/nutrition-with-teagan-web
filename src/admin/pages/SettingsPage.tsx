@@ -83,7 +83,6 @@ export default function SettingsPage() {
         </div>
       </div> */}
       
-
       {/* Help */}
       <div className="bg-gradient-sage rounded-2xl p-6 text-white">
         <div className="flex items-center gap-3 mb-4">
