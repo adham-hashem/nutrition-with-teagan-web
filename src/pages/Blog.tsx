@@ -240,31 +240,6 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Newsletter CTA */}
-      <section className="py-20 px-6" style={{ background: '#F4EFE6' }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <ScrollReveal>
-            <p className="section-tag">Never Miss an Article</p>
-            <h2 className="section-title mb-5">
-              Wellness Insights<br />
-              <em className="not-italic text-sage">Straight to Your Inbox</em>
-            </h2>
-            <p className="section-subtitle mb-8">
-              Subscribe to receive nourishing articles, seasonal wellness tips, and exclusive content from Teagan.
-            </p>
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 px-5 py-3.5 rounded-full border border-sage/30 bg-white font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-sage/30 transition"
-              />
-              <button type="submit" className="btn-primary whitespace-nowrap">
-                Subscribe
-              </button>
-            </form>
-          </ScrollReveal>
-        </div>
-      </section>
     </div>
   );
 }

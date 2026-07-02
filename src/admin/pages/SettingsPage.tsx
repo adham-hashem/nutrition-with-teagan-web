@@ -64,7 +64,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Database Info */}
-      <div className="bg-white rounded-2xl p-6 shadow-card">
+      {/* <div className="bg-white rounded-2xl p-6 shadow-card">
         <div className="flex items-center gap-3 mb-6">
           <Database className="w-5 h-5 text-sage" />
           <h2 className="font-montserrat text-sm font-semibold uppercase tracking-wider text-text-primary">
@@ -81,7 +81,7 @@ export default function SettingsPage() {
             <span className="font-montserrat text-xs">Row Level Security Enabled</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Help */}
       <div className="bg-gradient-sage rounded-2xl p-6 text-white">
