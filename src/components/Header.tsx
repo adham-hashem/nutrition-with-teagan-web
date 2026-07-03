@@ -49,7 +49,7 @@ export default function Header() {
             <img
               src="/logo.webp"
               alt="Nutrition with Teagan"
-              className="h-14 md:h-16 w-auto object-contain"
+              className="h-18 md:h-22 w-auto object-contain"
             />
           </Link>
 
@@ -110,7 +110,7 @@ export default function Header() {
             <img
               src="/logo.webp"
               alt="Nutrition with Teagan"
-              className="h-10 w-auto object-contain mb-6 self-start flex-shrink-0"
+              className="h-12 w-auto object-contain mb-6 self-start flex-shrink-0"
             />
 
             <div className="mb-6 flex-shrink-0">

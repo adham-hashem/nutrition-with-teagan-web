@@ -42,7 +42,7 @@ export default function Footer() {
             <img
               src="/logo.webp"
               alt="Nutrition with Teagan"
-              className="h-16 w-auto object-contain mb-5"
+              className="h-20 w-auto object-contain mb-5"
             />
             <p className="font-montserrat text-sm font-medium text-text-body leading-relaxed mb-6">
               Evidence-based naturopathic nutrition for women seeking hormonal balance, gut healing, and vibrant skin health.
