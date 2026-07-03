@@ -1,5 +1,18 @@
 import { Link } from '../router';
-import { Instagram, Mail, Heart } from 'lucide-react';
+import { Instagram, Mail, Heart, Facebook } from 'lucide-react';
+
+const PinterestIcon = ({ size = 17, className = "" }: { size?: number; className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    className={className}
+    fill="currentColor"
+  >
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.16 9.42 7.63 11.16-.1-.95-.2-2.4.04-3.43.22-.93 1.4-5.93 1.4-5.93s-.36-.72-.36-1.77c0-1.66.96-2.9 2.16-2.9 1.02 0 1.51.77 1.51 1.68 0 1.03-.65 2.56-.99 3.99-.28 1.19.6 2.16 1.77 2.16 2.12 0 3.76-2.24 3.76-5.48 0-2.87-2.06-4.88-5.01-4.88-3.41 0-5.42 2.56-5.42 5.2 0 1.03.4 2.13.9 2.73.1.12.11.23.08.35-.09.37-.28 1.15-.32 1.3-.05.21-.18.26-.41.15-1.53-.71-2.48-2.95-2.48-4.75 0-3.87 2.81-7.43 8.11-7.43 4.26 0 7.57 3.04 7.57 7.09 0 4.23-2.67 7.64-6.37 7.64-1.24 0-2.41-.65-2.81-1.41l-.77 2.92c-.28 1.06-1.03 2.39-1.54 3.22A12 12 0 1012 0z" />
+  </svg>
+);
+
 
 export default function Footer() {
   return (
@@ -47,9 +60,9 @@ export default function Footer() {
             <p className="font-montserrat text-sm font-medium text-text-body leading-relaxed mb-6">
               Evidence-based naturopathic nutrition for women seeking hormonal balance, gut healing, and vibrant skin health.
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/nutritionwithteagan?igsh=dzd6d2ZyNmhiMzVq&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-text-body hover:text-sage hover:shadow-soft transition-all duration-300"
@@ -58,7 +71,25 @@ export default function Footer() {
                 <Instagram size={17} />
               </a>
               <a
-                href="mailto:hello@nutritionwithteagan.com"
+                href="https://www.facebook.com/share/1NwnTt7fS3/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-text-body hover:text-sage hover:shadow-soft transition-all duration-300"
+                aria-label="Facebook"
+              >
+                <Facebook size={17} />
+              </a>
+              <a
+                href="https://pin.it/6t0QYCdyH"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-text-body hover:text-sage hover:shadow-soft transition-all duration-300"
+                aria-label="Pinterest"
+              >
+                <PinterestIcon size={17} />
+              </a>
+              <a
+                href="mailto:NutritionwithTeagan@outlook.com"
                 className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-text-body hover:text-sage hover:shadow-soft transition-all duration-300"
                 aria-label="Email"
               >
@@ -126,10 +157,10 @@ export default function Footer() {
             <ul className="space-y-3 mb-8">
               <li>
                 <a
-                  href="mailto:hello@nutritionwithteagan.com"
+                  href="mailto:NutritionwithTeagan@outlook.com"
                   className="font-montserrat text-sm font-medium text-text-body hover:text-sage transition-colors duration-300"
                 >
-                  hello@nutritionwithteagan.com
+                  NutritionwithTeagan@outlook.com
                 </a>
               </li>
               <li>

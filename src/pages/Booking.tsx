@@ -386,6 +386,24 @@ export default function Booking() {
         console.error('Booking error:', error);
         setSubmitError('Failed to submit booking. Please try again.');
         setSubmitted(false);
+      } else {
+        // Trigger Telegram notification via our serverless endpoint
+        try {
+          const selectedProgrammeData = selectedProgramme ? programmes.find(p => p.id === selectedProgramme) : null;
+          await fetch('/api/send-telegram', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ...bookingData,
+              service_title: selectedServiceData.title,
+              programme_title: selectedProgrammeData?.title || null,
+            }),
+          });
+        } catch (notifierErr) {
+          console.error('[Telegram Notifier] Failed to send notification request:', notifierErr);
+        }
       }
     } catch (err) {
       console.error('Booking submission error:', err);
