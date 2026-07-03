@@ -18,7 +18,7 @@ const values = [
 
 export default function About() {
   return (
-    <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+    <div className="pt-28 lg:pt-36 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
       {/* Page Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">

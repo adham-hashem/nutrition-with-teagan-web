@@ -399,7 +399,7 @@ export default function Booking() {
   // Loading state
   if (loading) {
     return (
-      <div className="pt-24 min-h-screen flex items-center justify-center" style={{ background: '#FAF8F3' }}>
+      <div className="pt-28 lg:pt-36 min-h-screen flex items-center justify-center" style={{ background: '#FAF8F3' }}>
         <div className="text-center">
           <Loader2 className="w-10 h-10 animate-spin text-sage-dark mx-auto mb-4" />
           <p className="font-montserrat text-sm text-text-body">Loading available services...</p>
@@ -411,7 +411,7 @@ export default function Booking() {
   // No services available
   if (!loading && services.length === 0) {
     return (
-      <div className="pt-24 min-h-screen flex items-center justify-center px-6" style={{ background: '#FAF8F3' }}>
+      <div className="pt-28 lg:pt-36 min-h-screen flex items-center justify-center px-6" style={{ background: '#FAF8F3' }}>
         <div className="max-w-lg w-full text-center">
           <Calendar className="w-16 h-16 text-sage mx-auto mb-6 opacity-30" />
           <h1 className="font-playfair text-2xl font-bold text-text-heading mb-3">No Services Available</h1>
@@ -431,7 +431,7 @@ export default function Booking() {
     const { discount, finalPrice } = calculateDiscount(totalPrice);
 
     return (
-      <div className="pt-24 min-h-screen flex items-center justify-center px-6" style={{ background: '#FAF8F3' }}>
+      <div className="pt-28 lg:pt-36 min-h-screen flex items-center justify-center px-6" style={{ background: '#FAF8F3' }}>
         <div className="max-w-lg w-full text-center">
           <div className="w-20 h-20 rounded-full bg-sage/15 flex items-center justify-center mx-auto mb-8">
             <CheckCircle2 size={38} className="text-sage" />
@@ -496,7 +496,7 @@ export default function Booking() {
   }
 
   return (
-    <div className="pt-24 min-h-screen overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+    <div className="pt-28 lg:pt-36 min-h-screen overflow-x-hidden" style={{ background: '#FAF8F3' }}>
       {/* Header */}
       <section className="py-12 px-6 text-center">
         <p className="section-tag">Book a Consultation</p>

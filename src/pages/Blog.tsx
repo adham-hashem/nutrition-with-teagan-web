@@ -91,7 +91,7 @@ export default function Blog() {
 
   if (loading) {
     return (
-      <div className="pt-24 min-h-screen flex items-center justify-center" style={{ background: '#FAF8F3' }}>
+      <div className="pt-28 lg:pt-36 min-h-screen flex items-center justify-center" style={{ background: '#FAF8F3' }}>
         <div className="text-center">
           <Loader2 className="w-10 h-10 animate-spin text-sage mx-auto mb-4" />
           <p className="font-montserrat text-sm text-text-body">Loading articles...</p>
@@ -101,7 +101,7 @@ export default function Blog() {
   }
 
   return (
-    <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+    <div className="pt-28 lg:pt-36 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">

@@ -38,14 +38,21 @@ export default function Header() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
+          menuOpen
+            ? 'bg-transparent shadow-none py-4'
+            : scrolled
             ? 'bg-white shadow-card py-3'
             : 'bg-white/80 py-4'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
+          <Link
+            to="/"
+            className={`flex-shrink-0 transition-opacity duration-300 ${
+              menuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            }`}
+          >
             <img
               src="/logo.webp"
               alt="Nutrition with Teagan"
@@ -74,7 +81,9 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <Link
               to="/booking"
-              className="hidden md:inline-flex items-center gap-2 btn-booking btn-pulse !px-6 !py-3 !text-xs"
+              className={`hidden md:inline-flex items-center gap-2 btn-booking btn-pulse !px-6 !py-3 !text-xs transition-opacity duration-300 ${
+                menuOpen ? 'opacity-0 pointer-events-none' : ''
+              }`}
             >
               Book Now
             </Link>

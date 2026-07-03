@@ -176,7 +176,7 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden flex flex-col lg:block gap-6 lg:gap-0">
       {/* ─── HERO ─── */}
-      <section className="relative min-h-[88vh] lg:min-h-0 flex items-center pt-24 pb-10 lg:pt-28 lg:pb-10 px-6 order-1 overflow-hidden bg-gradient-warm">
+      <section className="relative min-h-[88vh] lg:min-h-0 flex items-center pt-28 pb-10 lg:pt-36 lg:pb-10 px-6 order-1 overflow-hidden bg-gradient-warm">
         {/* Decorative botanical blobs — soft organic shapes */}
         <div className="absolute top-20 right-0 w-[500px] h-[500px] rounded-full pointer-events-none hidden md:block animate-float-soft" style={{ background: 'radial-gradient(circle, #9C8AB8 0%, transparent 70%)', transform: `translate(30%, ${offset * -0.04}px)`, opacity: 0.2 }} />
         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none hidden md:block animate-drift-slow" style={{ background: 'radial-gradient(circle, #8A9C7A 0%, transparent 70%)', transform: `translate(-30%, ${offset * 0.05}px)`, opacity: 0.18 }} />
