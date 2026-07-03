@@ -1,51 +1,15 @@
 import { useState } from 'react';
 import { Link } from '../router';
-import { Mail, Instagram, ArrowRight, CheckCircle2, Send, Loader2 } from 'lucide-react';
+import { Mail, Instagram, ArrowRight, CheckCircle2, Send } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
-import { supabase } from '../lib/supabase';
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    const name = form.name.trim();
-    const email = form.email.trim();
-    const subject = form.subject.trim();
-    const message = form.message.trim();
-
-    if (!name || !email || !message) {
-      setError('Please fill in all required fields.');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { error: insertError } = await supabase
-        .from('contact_messages')
-        .insert({
-          name,
-          email,
-          subject: subject || 'General Enquiry',
-          message,
-          status: 'unread',
-        });
-
-      if (insertError) throw insertError;
-
-      setSubmitted(true);
-    } catch (err: any) {
-      console.error('Contact submission error:', err);
-      setError('Failed to send message. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    setSubmitted(true);
   };
 
   return (
@@ -226,17 +190,8 @@ export default function Contact() {
                         style={{ background: '#FAF8F3' }}
                       />
                     </div>
-
-                    {error && (
-                      <p className="text-sm text-red-500 font-montserrat">{error}</p>
-                    )}
-
-                    <button type="submit" disabled={loading} className="btn-primary w-full justify-center disabled:opacity-50">
-                      {loading ? (
-                        <>Sending... <Loader2 size={15} className="animate-spin" /></>
-                      ) : (
-                        <>Send Message <Send size={15} /></>
-                      )}
+                    <button type="submit" className="btn-primary w-full justify-center">
+                      Send Message <Send size={15} />
                     </button>
                   </form>
                 </>

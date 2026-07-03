@@ -1,32 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Link } from '../router';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
-import { supabase } from '../lib/supabase';
 
-interface ServiceCategory {
-  id: string;
-  title: string;
-  tagline: string;
-  color: string;
-  bgColor: string;
-  image: string;
-  description: string;
-  conditions: string[];
-  benefits: string[];
-}
-
-interface ConsultationOption {
-  id: string;
-  title: string;
-  duration: string;
-  price: string;
-  description: string;
-  included: string[];
-  featured: boolean;
-}
-
-const categories: ServiceCategory[] = [
+const categories = [
   {
     id: 'skin',
     title: 'Skin Health',
@@ -93,73 +69,32 @@ const categories: ServiceCategory[] = [
   },
 ];
 
+const consultationTypes = [
+  {
+    title: 'Initial Consultation',
+    duration: '60–75 Minutes',
+    price: '£180',
+    description: 'A comprehensive deep-dive into your health history, symptoms, diet, and lifestyle. Receive your first personalised nutrition plan.',
+    included: ['Full health history review', 'Dietary analysis', 'Initial nutrition plan', 'Supplement recommendations', 'Follow-up pathway'],
+  },
+  {
+    title: 'Follow-Up Consultation',
+    duration: '30–45 Minutes',
+    price: '£110',
+    description: 'Review your progress, refine your nutrition plan, and receive updated protocols as your body responds and heals.',
+    included: ['Progress review', 'Plan refinement', 'New protocols', 'Updated supplement guidance', 'Ongoing support'],
+  },
+  {
+    title: 'Intensive Package',
+    duration: '3 Month Programme',
+    price: 'From £497',
+    description: 'Comprehensive support across three months including initial and monthly follow-ups, meal planning resources, and between-session messaging.',
+    included: ['Initial + 2 follow-ups', 'Personalised meal plans', 'Recipe resources', 'Between-session support', 'Priority booking'],
+    featured: true,
+  },
+];
+
 export default function Services() {
-  const [consultationTypes, setConsultationTypes] = useState<ConsultationOption[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchServices() {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from('services')
-          .select('*')
-          .eq('is_active', true)
-          .order('display_order', { ascending: true });
-
-        if (error) throw error;
-
-        if (data) {
-          const mapped: ConsultationOption[] = data.map((s) => {
-            const formattedPrice = new Intl.NumberFormat('en-GB', {
-              style: 'currency',
-              currency: 'GBP',
-              minimumFractionDigits: 0,
-            }).format(s.price_pence / 100);
-
-            // Determine dynamic list based on common services
-            let includedList = ['Comprehensive health assessment', 'Nourishing dietary advice', 'Personalised lifestyle advice'];
-            if (s.title.toLowerCase().includes('initial')) {
-              includedList = ['Full health history review', 'Dietary analysis', 'Initial nutrition plan', 'Supplement recommendations', 'Follow-up pathway'];
-            } else if (s.title.toLowerCase().includes('follow')) {
-              includedList = ['Progress review', 'Plan refinement', 'New protocols', 'Updated supplement guidance', 'Ongoing support'];
-            } else if (s.title.toLowerCase().includes('intensive') || s.title.toLowerCase().includes('package')) {
-              includedList = ['Initial + 6 follow-ups', 'Personalised meal plans', 'Recipe resources', 'Between-session support', 'Priority booking'];
-            }
-
-            return {
-              id: s.id,
-              title: s.title,
-              duration: s.duration_minutes ? `${s.duration_minutes} Minutes` : '60 Minutes',
-              price: formattedPrice,
-              description: s.description || '',
-              included: includedList,
-              featured: s.is_featured || false,
-            };
-          });
-          setConsultationTypes(mapped);
-        }
-      } catch (error) {
-        console.error('Error fetching services:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchServices();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="pt-24 min-h-screen flex items-center justify-center" style={{ background: '#FAF8F3' }}>
-        <div className="text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-sage mx-auto mb-4" />
-          <p className="font-montserrat text-sm text-text-body">Loading services...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
       {/* Header */}
@@ -221,7 +156,7 @@ export default function Services() {
                       </div>
                     </div>
 
-                    <Link to="/booking" className="btn-booking btn-pulse">
+                    <Link to="/booking" className="btn-primary">
                       Book a Consultation <ArrowRight size={15} />
                     </Link>
                   </div>
@@ -259,7 +194,7 @@ export default function Services() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {consultationTypes.map((type, i) => (
-              <ScrollReveal key={type.id || type.title} delay={i * 100}>
+              <ScrollReveal key={type.title} delay={i * 100}>
                 <div className={`h-full flex flex-col rounded-3xl p-9 shadow-card transition-all duration-500 hover:shadow-card-hover hover:-translate-y-1 ${
                   type.featured
                     ? 'bg-sage text-white'
@@ -315,7 +250,7 @@ export default function Services() {
             <p className="section-subtitle mb-9">
               Book your initial consultation and begin your personalised naturopathic nutrition journey today.
             </p>
-            <Link to="/booking" className="btn-booking btn-pulse">
+            <Link to="/booking" className="btn-primary">
               Book Your Consultation <ArrowRight size={15} />
             </Link>
           </ScrollReveal>

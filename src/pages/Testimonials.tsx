@@ -199,7 +199,7 @@ export default function Testimonials() {
             <p className="section-subtitle mb-9">
               Join the growing community of women who have reclaimed their health through personalised naturopathic nutrition.
             </p>
-            <Link to="/booking" className="btn-primary">
+            <Link to="/booking" className="btn-booking btn-pulse">
               Book Your Consultation <ArrowRight size={15} />
             </Link>
           </ScrollReveal>

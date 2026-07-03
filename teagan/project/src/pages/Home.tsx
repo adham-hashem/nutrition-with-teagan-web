@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from '../router';
 import { ArrowRight, Star, Leaf, CheckCircle2, Sparkles, Sprout, Flower2 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
-import { supabase } from '../lib/supabase';
 
 function BotanicalDivider() {
   return (
@@ -81,7 +80,7 @@ const steps = [
   },
 ];
 
-const staticTestimonials = [
+const testimonials = [
   {
     quote: 'Working with Teagan completely transformed my relationship with my hormones. After 3 months, my PCOS symptoms are practically gone.',
     name: 'Sarah M.',
@@ -99,7 +98,7 @@ const staticTestimonials = [
   },
 ];
 
-const staticArticles = [
+const articles = [
   {
     category: 'Hormones',
     title: 'Understanding Your Cycle: A Nutritional Guide to Each Phase',
@@ -125,54 +124,6 @@ const staticArticles = [
 
 export default function Home() {
   const offset = useParallax();
-  const [recentArticles, setRecentArticles] = useState(staticArticles);
-  const [recentTestimonials, setRecentTestimonials] = useState(staticTestimonials);
-
-  useEffect(() => {
-    async function fetchHomeData() {
-      try {
-        const [postsRes, testRes] = await Promise.all([
-          supabase
-            .from('blog_posts')
-            .select('*, blog_categories(name)')
-            .eq('is_published', true)
-            .order('published_at', { ascending: false })
-            .limit(3),
-          supabase
-            .from('testimonials')
-            .select('*')
-            .eq('is_approved', true)
-            .order('display_order', { ascending: true })
-            .limit(3),
-        ]);
-
-        if (postsRes.data && postsRes.data.length > 0) {
-          setRecentArticles(postsRes.data.map(p => {
-            const dateObj = p.published_at ? new Date(p.published_at) : new Date(p.created_at);
-            return {
-              category: p.blog_categories?.name || 'Nutrition',
-              title: p.title,
-              excerpt: p.excerpt || '',
-              image: p.featured_image_url || 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=600',
-              date: dateObj.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-            };
-          }));
-        }
-
-        if (testRes.data && testRes.data.length > 0) {
-          setRecentTestimonials(testRes.data.map(t => ({
-            quote: t.quote,
-            name: t.client_name,
-            tag: t.programme || 'Wellness Programme',
-          })));
-        }
-      } catch (error) {
-        console.error('Error fetching home data:', error);
-      }
-    }
-    fetchHomeData();
-  }, []);
-
   return (
     <div className="overflow-x-hidden flex flex-col lg:block gap-6 lg:gap-0">
       {/* ─── HERO ─── */}
@@ -229,7 +180,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Image ─ responsive image heights */}
+          {/* Right Image — full-width below text on mobile, full layout on large screens */}
           <div className="relative w-full mt-2 lg:mt-0 lg:w-auto">
             <div className="relative z-10 rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-luxury">
               <img
@@ -324,7 +275,7 @@ export default function Home() {
                 <img
                   src="https://images.pexels.com/photos/5998454/pexels-photo-5998454.jpeg?auto=compress&cs=tinysrgb&w=700"
                   alt="Teagan in her natural environment"
-                  className="w-full h-[320px] sm:h-[450px] lg:h-[520px] object-cover"
+                  className="w-full h-[520px] object-cover"
                 />
               </div>
               <div className="absolute top-8 -right-6 glass-lilac rounded-2xl p-5 shadow-soft max-w-[180px]">
@@ -536,7 +487,7 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {recentTestimonials.map((t, i) => (
+            {testimonials.map((t, i) => (
               <ScrollReveal key={t.name} delay={i * 100}>
                 <div className="bg-white rounded-3xl p-8 shadow-card hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-500 h-full flex flex-col" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
                   <div className="flex items-center gap-1 mb-6">
@@ -638,7 +589,7 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {recentArticles.map((article, i) => (
+            {articles.map((article, i) => (
               <ScrollReveal key={article.title} delay={i * 100}>
                 <Link to="/blog" className="group block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
                   <div className="overflow-hidden h-52">

@@ -156,8 +156,8 @@ export default function FAQ() {
               <Link to="/contact" className="btn-primary">
                 Get in Touch <ArrowRight size={15} />
               </Link>
-              <Link to="/booking" className="btn-outline">
-                Book a Consultation
+              <Link to="/booking" className="btn-booking btn-pulse">
+                Book a Consultation <ArrowRight size={15} />
               </Link>
             </div>
           </ScrollReveal>

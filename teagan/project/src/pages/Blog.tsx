@@ -1,81 +1,96 @@
-import { useState, useEffect } from 'react';
-import { Search, ArrowRight, Loader2 } from 'lucide-react';
-import ScrollReveal from '../components/ScrollReveal';
-import { supabase } from '../lib/supabase';
+import { useState } from 'react';
 import { Link } from '../router';
+import { Search, ArrowRight } from 'lucide-react';
+import ScrollReveal from '../components/ScrollReveal';
 
-interface Article {
-  id: string;
-  category: string;
-  title: string;
-  excerpt: string;
-  image: string;
-  date: string;
-  readTime: string;
-}
+const categories = ['All', 'Hormones', 'Gut Health', 'Nutrition', 'Skin Health', "Women's Wellness", 'Lifestyle Tips'];
+
+const articles = [
+  {
+    id: 1,
+    category: 'Hormones',
+    title: 'Understanding Your Cycle: A Nutritional Guide to Each Phase',
+    excerpt: 'Learn how to nourish your body through each phase of your menstrual cycle for optimal hormonal balance, energy, and mood.',
+    image: 'https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=600',
+    date: 'December 15, 2024',
+    readTime: '7 min read',
+    featured: true,
+  },
+  {
+    id: 2,
+    category: 'Gut Health',
+    title: 'The Gut-Skin Connection: Why Your Skin Starts in the Gut',
+    excerpt: 'Discover the science behind the gut-skin axis and how healing your microbiome can clear your complexion naturally.',
+    image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600',
+    date: 'November 28, 2024',
+    readTime: '5 min read',
+    featured: false,
+  },
+  {
+    id: 3,
+    category: 'Nutrition',
+    title: '5 Anti-Inflammatory Foods Every Woman Should Eat Weekly',
+    excerpt: 'These powerful whole foods reduce systemic inflammation and support hormones, skin, and sustained energy levels.',
+    image: 'https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=600',
+    date: 'November 12, 2024',
+    readTime: '4 min read',
+    featured: false,
+  },
+  {
+    id: 4,
+    category: 'Hormones',
+    title: 'PCOS & Nutrition: What the Evidence Actually Says',
+    excerpt: 'Cutting through the noise to share the evidence-based nutritional strategies that truly help with PCOS management.',
+    image: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=600',
+    date: 'October 30, 2024',
+    readTime: '9 min read',
+    featured: false,
+  },
+  {
+    id: 5,
+    category: 'Skin Health',
+    title: 'Hormonal Acne: The Inside-Out Approach That Actually Works',
+    excerpt: 'Why topical treatments alone often fail for hormonal acne — and the nutritional strategies that address the root cause.',
+    image: 'https://images.pexels.com/photos/3373716/pexels-photo-3373716.jpeg?auto=compress&cs=tinysrgb&w=600',
+    date: 'October 14, 2024',
+    readTime: '6 min read',
+    featured: false,
+  },
+  {
+    id: 6,
+    category: "Women's Wellness",
+    title: 'Seed Cycling for Hormone Balance: Does It Actually Work?',
+    excerpt: 'Exploring the science (and art) behind seed cycling for hormonal support — what the research says and how to try it.',
+    image: 'https://images.pexels.com/photos/4057064/pexels-photo-4057064.jpeg?auto=compress&cs=tinysrgb&w=600',
+    date: 'September 22, 2024',
+    readTime: '5 min read',
+    featured: false,
+  },
+  {
+    id: 7,
+    category: 'Lifestyle Tips',
+    title: 'Stress & Hormones: How Cortisol Impacts Your Entire Body',
+    excerpt: 'Understanding the profound impact chronic stress has on your hormones, gut, skin, and overall wellbeing — and what to do.',
+    image: 'https://images.pexels.com/photos/3757952/pexels-photo-3757952.jpeg?auto=compress&cs=tinysrgb&w=600',
+    date: 'September 8, 2024',
+    readTime: '8 min read',
+    featured: false,
+  },
+  {
+    id: 8,
+    category: 'Gut Health',
+    title: 'How to Build a Gut-Friendly Plate (Without the Overwhelm)',
+    excerpt: 'A simple, practical guide to building meals that support a thriving gut microbiome — no complicated diets required.',
+    image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600',
+    date: 'August 25, 2024',
+    readTime: '5 min read',
+    featured: false,
+  },
+];
 
 export default function Blog() {
-  const [categories, setCategories] = useState<string[]>(['All']);
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    async function fetchBlogData() {
-      try {
-        setLoading(true);
-        // Fetch categories
-        const { data: catData, error: catError } = await supabase
-          .from('blog_categories')
-          .select('name');
-        
-        if (catError) throw catError;
-        if (catData) {
-          setCategories(['All', ...catData.map((c) => c.name)]);
-        }
-
-        // Fetch published blog posts
-        const { data: postsData, error: postsError } = await supabase
-          .from('blog_posts')
-          .select('*, blog_categories(name)')
-          .eq('is_published', true)
-          .order('published_at', { ascending: false });
-
-        if (postsError) throw postsError;
-
-        if (postsData) {
-          const mappedArticles: Article[] = postsData.map((row) => {
-            const wordCount = row.content?.split(/\s+/).length || 0;
-            const readTimeMinutes = Math.max(3, Math.ceil(wordCount / 200));
-            const dateObj = row.published_at ? new Date(row.published_at) : new Date(row.created_at);
-            const formattedDate = dateObj.toLocaleDateString('en-GB', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-            });
-
-            return {
-              id: row.id,
-              category: row.blog_categories?.name || 'Uncategorised',
-              title: row.title,
-              excerpt: row.excerpt || '',
-              image: row.featured_image_url || 'https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=600',
-              date: formattedDate,
-              readTime: `${readTimeMinutes} min read`,
-            };
-          });
-          setArticles(mappedArticles);
-        }
-      } catch (error) {
-        console.error('Error fetching blog data:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchBlogData();
-  }, []);
 
   const filtered = articles.filter((a) => {
     const matchCat = activeCategory === 'All' || a.category === activeCategory;
@@ -86,19 +101,8 @@ export default function Blog() {
     return matchCat && matchSearch;
   });
 
-  const featured = activeCategory === 'All' && searchQuery === '' && filtered.length > 0 ? filtered[0] : null;
-  const rest = featured ? filtered.slice(1) : filtered;
-
-  if (loading) {
-    return (
-      <div className="pt-24 min-h-screen flex items-center justify-center" style={{ background: '#FAF8F3' }}>
-        <div className="text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-sage mx-auto mb-4" />
-          <p className="font-montserrat text-sm text-text-body">Loading articles...</p>
-        </div>
-      </div>
-    );
-  }
+  const featured = filtered.find((a) => a.featured && activeCategory === 'All' && searchQuery === '');
+  const rest = featured ? filtered.filter((a) => !a.featured) : filtered;
 
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
@@ -202,7 +206,7 @@ export default function Blog() {
       {/* Article Grid */}
       <section className="px-6 pb-24">
         <div className="max-w-7xl mx-auto">
-          {filtered.length === 0 ? (
+          {rest.length === 0 ? (
             <div className="text-center py-20">
               <p className="font-playfair text-2xl text-text-secondary mb-3">No articles found</p>
               <p className="font-montserrat text-sm text-text-light">Try a different search term or category</p>
@@ -211,7 +215,7 @@ export default function Blog() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {rest.map((article, i) => (
                 <ScrollReveal key={article.id} delay={i * 80}>
-                  <Link to="#" className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 h-full hover:border-sage/30" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
+                  <Link to="#" className="group block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 h-full">
                     <div className="overflow-hidden h-52">
                       <img
                         src={article.image}

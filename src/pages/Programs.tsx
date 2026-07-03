@@ -212,7 +212,7 @@ export default function Programs() {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <Link to="/booking" className="btn-primary">
+                      <Link to="/booking" className="btn-booking btn-pulse">
                         Book This Programme <ArrowRight size={15} />
                       </Link>
                       <Link to="/contact" className="btn-outline">
@@ -240,7 +240,7 @@ export default function Programs() {
               Every woman's health journey is unique. Reach out with your questions and Teagan will help you identify the best programme for your needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/booking" className="btn-primary">
+              <Link to="/booking" className="btn-booking btn-pulse">
                 Book Your Consultation <ArrowRight size={15} />
               </Link>
               <Link to="/contact" className="btn-outline">
