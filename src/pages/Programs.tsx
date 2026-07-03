@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from '../router';
 import { ArrowRight, Clock, CheckCircle2, Video, Loader2 } from 'lucide-react';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../lib/supabase';
 
@@ -89,6 +90,57 @@ export default function Programs() {
 
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Hormone & Gut Health Programs | Nutrition with Teagan"
+        description="Structured 8 to 12-week nutritional wellness programs including Hormone Harmony, Gut Restore, and Metabolic Wellness. Personalised guides and active clinical support."
+        keywords="gut restore program, hormone harmony protocol, metabolic weight loss, 12 week wellness plan, nutrition programs, Teagan health"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "numberOfItems": 3,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Service",
+                "name": "Hormone Harmony Programme",
+                "description": "A 12-week comprehensive program addressing hormonal imbalances such as PCOS, PMS, and irregular cycles.",
+                "provider": {
+                  "@type": "HealthAndBeautyBusiness",
+                  "name": "Nutrition with Teagan"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Service",
+                "name": "Gut Restore Programme",
+                "description": "An 8-week structured protocol to rebuild gut health, address IBS, bloating, and food intolerances.",
+                "provider": {
+                  "@type": "HealthAndBeautyBusiness",
+                  "name": "Nutrition with Teagan"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "Service",
+                "name": "Metabolic Wellness Programme",
+                "description": "A 10-week program to balance blood sugar, support thyroid health, and restore energy levels.",
+                "provider": {
+                  "@type": "HealthAndBeautyBusiness",
+                  "name": "Nutrition with Teagan"
+                }
+              }
+            }
+          ]
+        }}
+      />
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
@@ -123,6 +175,7 @@ export default function Programs() {
                       src={program.image}
                       alt={program.title}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                     <div className="absolute bottom-6 left-8 right-8 flex items-end justify-between">

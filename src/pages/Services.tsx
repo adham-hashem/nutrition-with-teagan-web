@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from '../router';
 import { ArrowRight, Loader2 } from 'lucide-react';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../lib/supabase';
 
@@ -162,6 +163,23 @@ export default function Services() {
 
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Naturopathic Nutrition Services | Hormone, Gut & Skin Health"
+        description="Explore evidence-based nutrition consultation services. Tailored health packages, individual assessments, and hormone, gut, and metabolic wellness therapy."
+        keywords="naturopathic nutrition, gut health services, hormone clinic, skin wellness consultation, personalised nutrition packages, Teagan nutrition"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "serviceType": "Naturopathic Nutrition Consultation",
+          "provider": {
+            "@type": "HealthAndBeautyBusiness",
+            "name": "Nutrition with Teagan",
+            "url": "https://nutritionwithteagan.com"
+          },
+          "description": "Evidence-based, personalised nutrition consultations to support hormone health, gut health, skin conditions, and overall metabolic wellness.",
+          "areaServed": "Online"
+        }}
+      />
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
@@ -232,6 +250,7 @@ export default function Services() {
                       src={cat.image}
                       alt={cat.title}
                       className="w-full h-full object-cover min-h-[420px]"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/5" />
                   </div>

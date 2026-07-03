@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from '../router';
 import { Mail, Instagram, ArrowRight, CheckCircle2, Send, Loader2 } from 'lucide-react';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../lib/supabase';
 
@@ -50,6 +51,18 @@ export default function Contact() {
 
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Contact Teagan | Book Naturopathic Consultation Online"
+        description="Get in touch with Teagan for general inquiries, partnership opportunities, or support. Book your initial consultation session online today."
+        keywords="contact nutritionist, hire naturopath, women health advice online, book nutritionist consultation"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contact Nutrition with Teagan",
+          "description": "Get in touch with Teagan for general inquiries, support, or consultation booking.",
+          "url": "https://nutritionwithteagan.com/contact"
+        }}
+      />
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">

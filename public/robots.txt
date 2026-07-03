@@ -1,0 +1,10 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Exclude admin and checkout paths
+Disallow: /admin/
+Disallow: /admin
+
+# Sitemap location
+Sitemap: https://nutritionwithteagan.com/sitemap.xml

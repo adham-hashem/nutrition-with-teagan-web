@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, CheckCircle2, Clock, Video, Calendar, Tag, Loader2, X, MapPin, Users, Package } from 'lucide-react';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { Link } from '../router';
 import { supabase } from '../lib/supabase';
@@ -497,6 +498,11 @@ export default function Booking() {
 
   return (
     <div className="pt-28 lg:pt-36 min-h-screen overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Book a Personalised Consultation | Nutrition with Teagan"
+        description="Schedule your Initial Naturopathic consultation or follow-up session online. Select your service, find a suitable slot, and start your healing journey."
+        keywords="book nutritionist, online nutrition appointment, hormone health consultation, IBS nutritionist booking"
+      />
       {/* Header */}
       <section className="py-12 px-6 text-center">
         <p className="section-tag">Book a Consultation</p>

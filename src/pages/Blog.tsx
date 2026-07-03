@@ -3,6 +3,7 @@ import { Search, ArrowRight, Loader2 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../lib/supabase';
 import { Link } from '../router';
+import SEO from '../components/SEO';
 
 interface Article {
   id: string;
@@ -89,6 +90,27 @@ export default function Blog() {
   const featured = activeCategory === 'All' && searchQuery === '' && filtered.length > 0 ? filtered[0] : null;
   const rest = featured ? filtered.slice(1) : filtered;
 
+  const blogSchema = articles.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Nutrition with Teagan Wellness Journal",
+    "description": "Evidence-based articles on hormones, gut health, skin, and women's wellness to support your healing journey.",
+    "publisher": {
+      "@type": "HealthAndBeautyBusiness",
+      "name": "Nutrition with Teagan",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://nutritionwithteagan.com/logo.webp"
+      }
+    },
+    "blogPost": articles.map(art => ({
+      "@type": "BlogPosting",
+      "headline": art.title,
+      "description": art.excerpt,
+      "image": art.image
+    }))
+  } : undefined;
+
   if (loading) {
     return (
       <div className="pt-28 lg:pt-36 min-h-screen flex items-center justify-center" style={{ background: '#FAF8F3' }}>
@@ -102,6 +124,12 @@ export default function Blog() {
 
   return (
     <div className="pt-28 lg:pt-36 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Naturopathic Health Blog & Nourishing Recipes | Nutrition with Teagan"
+        description="Read evidence-based articles, healthy recipes, and naturopathic wellness insights on gut health, hormone balancing, acne recovery, and stress management."
+        keywords="nutrition blog, gut health articles, PCOS healing, acne diet, hormone balancing tips, wellness journal, Teagan"
+        schema={blogSchema}
+      />
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">

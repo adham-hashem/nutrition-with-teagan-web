@@ -1,5 +1,6 @@
 import { ArrowRight, FileText, HeartHandshake, AlertCircle, Ban } from 'lucide-react';
 import { Link } from '../router';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 
 function BotanicalDivider() {
@@ -13,6 +14,11 @@ function BotanicalDivider() {
 export default function TermsOfService() {
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Terms of Service | Nutrition with Teagan"
+        description="Please review our terms of service before booking clinical consultations or standalone wellness programs. Clarification of client-practitioner roles, booking guidelines, and cancellation terms."
+        keywords="terms of service, cancellation policy, nutrition booking terms, client practitioner agreement"
+      />
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden bg-gradient-warm">
         <div className="absolute inset-0 pointer-events-none">

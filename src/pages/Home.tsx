@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from '../router';
 import { ArrowRight, Star, Leaf, CheckCircle2, Sparkles, Sprout, Flower2 } from 'lucide-react';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../lib/supabase';
 
@@ -175,6 +176,28 @@ export default function Home() {
 
   return (
     <div className="overflow-x-hidden flex flex-col lg:block gap-6 lg:gap-0">
+      <SEO
+        title="Nutrition with Teagan | Naturopathic Nutritionist"
+        description="Naturopathic nutritionist supporting women through evidence-based nutrition for hormone health, gut health, skin concerns, and metabolic wellness. Book your personalised consultation today."
+        keywords="naturopathic nutritionist, hormone health, gut health, PCOS, PMS, acne, skin health, IBS, bloating, metabolic wellness, online consultation"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "HealthAndBeautyBusiness",
+          "name": "Nutrition with Teagan",
+          "description": "Naturopathic nutritionist supporting women through evidence-based nutrition for hormone health, gut health, skin concerns, and metabolic wellness.",
+          "url": "https://nutritionwithteagan.com",
+          "logo": "https://nutritionwithteagan.com/logo.webp",
+          "priceRange": "$$",
+          "image": "https://nutritionwithteagan.com/girl image.webp",
+          "serviceType": [
+            "Naturopathic Nutrition",
+            "Hormone Health",
+            "Gut Health Assessment",
+            "Metabolic Wellness"
+          ],
+          "areaServed": "Online"
+        }}
+      />
       {/* ─── HERO ─── */}
       <section className="relative min-h-[88vh] lg:min-h-0 flex items-center pt-28 pb-10 lg:pt-36 lg:pb-10 px-6 order-1 overflow-hidden bg-gradient-warm">
         {/* Decorative botanical blobs — soft organic shapes */}
@@ -325,6 +348,7 @@ export default function Home() {
                   src="/girl image.webp"
                   alt="Teagan in her natural environment"
                   className="w-full h-[320px] sm:h-[450px] lg:h-[520px] object-cover"
+                  loading="lazy"
                 />
               </div>
               <div className="absolute top-8 -right-6 glass-lilac rounded-2xl p-5 shadow-soft max-w-[180px]">
@@ -479,6 +503,7 @@ export default function Home() {
                       src={program.image}
                       alt={program.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                     <span
@@ -609,6 +634,7 @@ export default function Home() {
                   src="https://images.pexels.com/photos/4498605/pexels-photo-4498605.jpeg?auto=compress&cs=tinysrgb&w=700"
                   alt="Online consultation"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -646,6 +672,7 @@ export default function Home() {
                       src={article.image}
                       alt={article.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
                     />
                   </div>
                   <div className="p-7">

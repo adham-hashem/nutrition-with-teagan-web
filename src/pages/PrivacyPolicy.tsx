@@ -1,5 +1,6 @@
 import { ArrowRight, ShieldCheck, Eye, Database, FileText } from 'lucide-react';
 import { Link } from '../router';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 
 function BotanicalDivider() {
@@ -13,6 +14,11 @@ function BotanicalDivider() {
 export default function PrivacyPolicy() {
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Privacy Policy | Nutrition with Teagan"
+        description="Our policy regarding the collection, protection, storage, and respect of your personal and health information. Compliant with HIPAA and GDPR standards."
+        keywords="privacy policy, patient data security, GDPR compliance, HIPAA nutrition"
+      />
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden bg-gradient-warm">
         <div className="absolute inset-0 pointer-events-none">

@@ -1,5 +1,6 @@
 import { Link } from '../router';
 import { ArrowRight, CheckCircle2, Leaf, Heart, BookOpen, Award } from 'lucide-react';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 
 const qualifications = [
@@ -19,6 +20,26 @@ const values = [
 export default function About() {
   return (
     <div className="pt-28 lg:pt-36 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="About Teagan | Qualified Naturopathic Nutritionist"
+        description="Meet Teagan, a qualified BHSc Naturopathic Nutritionist. Discover her holistic approach to hormone health, gut restoration, and women's metabolic wellness."
+        keywords="naturopathic nutritionist, womens health specialist, BHSc Nutritional Medicine, hormone balancing, gut health, holistic nutrition, Teagan"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "mainEntity": {
+            "@type": "Person",
+            "name": "Teagan",
+            "jobTitle": "Naturopathic Nutritionist",
+            "alumniOf": {
+              "@type": "EducationalOrganization",
+              "name": "Bachelor of Health Science (Nutritional Medicine)"
+            },
+            "description": "Qualified Naturopathic Nutritionist supporting women through clinical experience and evidence-based medicine.",
+            "knowsAbout": ["Nutrition", "Hormone Health", "Gut Health", "Naturopathy", "Skin Health"]
+          }
+        }}
+      />
       {/* Page Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
@@ -187,6 +208,7 @@ export default function About() {
                 src="https://images.pexels.com/photos/4498605/pexels-photo-4498605.jpeg?auto=compress&cs=tinysrgb&w=700"
                 alt="Online wellness consultation"
                 className="w-full h-[480px] object-cover"
+                loading="lazy"
               />
             </div>
           </ScrollReveal>

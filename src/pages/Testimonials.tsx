@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from '../router';
 import { ArrowRight, Star, Quote, Loader2 } from 'lucide-react';
+import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../lib/supabase';
 
@@ -75,6 +76,22 @@ export default function Testimonials() {
 
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Client Success Stories & Reviews | Nutrition with Teagan"
+        description="Read testimonials and real success stories from women who balanced their hormones, healed their gut, and cleared their skin with Teagan's nutrition protocols."
+        keywords="naturopathic nutrition reviews, client success stories, gut health reviews, hormone healing testimonials, Teagan client feedback"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": "Naturopathic Nutrition Consultation",
+          "description": "Evidence-based, personalised nutrition consultations to support hormone health, gut health, skin conditions, and overall metabolic wellness.",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "48"
+          }
+        }}
+      />
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">

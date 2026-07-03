@@ -3,6 +3,7 @@ import { Link } from '../router';
 import { ArrowRight, ChevronDown, Loader2 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../lib/supabase';
+import SEO from '../components/SEO';
 
 interface FAQQuestion {
   q: string;
@@ -80,6 +81,21 @@ export default function FAQ() {
     fetchFAQs();
   }, []);
 
+  const faqSchema = faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.flatMap(section =>
+      section.questions.map(q => ({
+        "@type": "Question",
+        "name": q.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": q.a
+        }
+      }))
+    )
+  } : undefined;
+
   if (loading) {
     return (
       <div className="pt-24 min-h-screen flex items-center justify-center" style={{ background: '#FAF8F3' }}>
@@ -93,6 +109,12 @@ export default function FAQ() {
 
   return (
     <div className="pt-24 overflow-x-hidden" style={{ background: '#FAF8F3' }}>
+      <SEO
+        title="Nutrition & Wellness FAQs | Nutrition with Teagan"
+        description="Find answers to common questions about naturopathic nutrition consultations, pricing, booking, testing, and what to expect during your health journey."
+        keywords="nutrition FAQs, naturopathic consultation cost, gut testing, PCOS nutritionist consultation, online nutrition coaching"
+        schema={faqSchema}
+      />
       {/* Header */}
       <section className="py-16 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
