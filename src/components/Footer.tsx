@@ -40,7 +40,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <img
-              src="/image.png"
+              src="/logo.webp"
               alt="Nutrition with Teagan"
               className="h-16 w-auto object-contain mb-5"
             />

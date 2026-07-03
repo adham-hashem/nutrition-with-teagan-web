@@ -233,7 +233,7 @@ export default function Home() {
           <div className="relative w-full mt-2 lg:mt-0 lg:w-auto">
             <div className="relative z-10 rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-luxury">
               <img
-                src="https://images.pexels.com/photos/3757952/pexels-photo-3757952.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src="/girl image.webp"
                 alt="Teagan — Naturopathic Nutritionist"
                 className="w-full h-[240px] sm:h-[280px] lg:h-[600px] object-cover"
               />
@@ -322,7 +322,7 @@ export default function Home() {
             <div className="relative">
               <div className="rounded-[2.5rem] overflow-hidden shadow-luxury">
                 <img
-                  src="https://images.pexels.com/photos/5998454/pexels-photo-5998454.jpeg?auto=compress&cs=tinysrgb&w=700"
+                  src="/girl image.webp"
                   alt="Teagan in her natural environment"
                   className="w-full h-[320px] sm:h-[450px] lg:h-[520px] object-cover"
                 />

@@ -47,7 +47,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
             <img
-              src="/image.png"
+              src="/logo.webp"
               alt="Nutrition with Teagan"
               className="h-14 md:h-16 w-auto object-contain"
             />
@@ -106,37 +106,39 @@ export default function Header() {
           }`}
           style={{ background: '#FAF8F3' }}
         >
-          <div className="flex flex-col h-full pt-24 pb-10 px-8">
+          <div className="flex flex-col h-full pt-20 pb-6 px-6">
             <img
-              src="/image.png"
+              src="/logo.webp"
               alt="Nutrition with Teagan"
-              className="h-12 w-auto object-contain mb-10 self-start"
+              className="h-10 w-auto object-contain mb-6 self-start flex-shrink-0"
             />
 
-            <nav className="flex flex-col gap-5 flex-1">
+            <div className="mb-6 flex-shrink-0">
+              <button
+                onClick={() => { navigate('/booking'); setMenuOpen(false); }}
+                className="w-full text-center btn-booking btn-pulse !text-xs !px-6 !py-3.5"
+              >
+                Book Consultation
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-4 overflow-y-auto flex-1 pr-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   onClick={() => setMenuOpen(false)}
-                  className={`font-montserrat text-sm font-bold tracking-[0.12em] uppercase pb-5 transition-colors duration-300 ${
+                  className={`font-montserrat text-xs font-bold tracking-[0.12em] uppercase pb-3 transition-colors duration-300 ${
                     pathname === link.to
                       ? 'text-sage'
                       : 'text-text-heading hover:text-sage'
                   }`}
-                  style={{ borderBottom: '2px solid #8A9C7A' }}
+                  style={{ borderBottom: '1px solid rgba(138, 156, 122, 0.3)' }}
                 >
                   {link.label}
                 </Link>
               ))}
             </nav>
-
-            <button
-              onClick={() => { navigate('/booking'); setMenuOpen(false); }}
-              className="mt-8 w-full text-center btn-booking btn-pulse !text-xs !px-6 !py-4"
-            >
-              Book Consultation
-            </button>
           </div>
         </div>
       </div>

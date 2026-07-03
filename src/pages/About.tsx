@@ -42,7 +42,7 @@ export default function About() {
             <div className="relative">
               <div className="rounded-[2.5rem] overflow-hidden shadow-luxury">
                 <img
-                  src="https://images.pexels.com/photos/5998454/pexels-photo-5998454.jpeg?auto=compress&cs=tinysrgb&w=700"
+                  src="/girl image.webp"
                   alt="Teagan — Naturopathic Nutritionist"
                   className="w-full h-[560px] object-cover"
                 />

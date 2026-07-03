@@ -496,7 +496,7 @@ export default function Booking() {
   }
 
   return (
-    <div className="pt-24 min-h-screen" style={{ background: '#FAF8F3' }}>
+    <div className="pt-24 min-h-screen overflow-x-hidden" style={{ background: '#FAF8F3' }}>
       {/* Header */}
       <section className="py-12 px-6 text-center">
         <p className="section-tag">Book a Consultation</p>
@@ -533,7 +533,7 @@ export default function Booking() {
             {/* Step 1: Choose Consultation Type */}
             {step === 1 && (
               <ScrollReveal>
-                <div className="p-9">
+                <div className="p-5 sm:p-9">
                   <h2 className="font-playfair text-2xl font-bold text-text-heading mb-2">Choose Consultation Type</h2>
                   <p className="font-montserrat text-sm text-text-body mb-8">Select how you'd like to work with Teagan. Each consultation includes personalised nutrition guidance.</p>
                   <div className="space-y-4">
@@ -545,13 +545,13 @@ export default function Booking() {
                         <button
                           key={service.id}
                           onClick={() => setSelectedService(service.id)}
-                          className={`w-full text-left rounded-2xl border-2 p-5 transition-all duration-300 ${
+                          className={`w-full text-left rounded-2xl border-2 p-4 sm:p-5 transition-all duration-300 ${
                             isSelected
                               ? 'border-sage-dark bg-sage/5'
                               : 'border-sage/30 hover:border-sage-dark'
                           }`}
                         >
-                          <div className="flex items-start justify-between gap-4">
+                          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
                             <div className="flex-1">
                               <div className="flex items-center gap-3 mb-1">
                                 <h3 className="font-playfair text-lg font-bold text-text-heading">{service.title}</h3>
@@ -585,10 +585,10 @@ export default function Booking() {
                                 </span>
                               </div>
                             </div>
-                            <div className="text-right flex-shrink-0">
+                            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 flex-shrink-0 border-t sm:border-t-0 border-sage/10 pt-3 sm:pt-0">
                               <p className="font-playfair text-xl font-bold text-sage-dark">{formatPrice(price)}</p>
                               {isSelected && (
-                                <CheckCircle2 size={18} className="text-sage-dark ml-auto mt-2" />
+                                <CheckCircle2 size={18} className="text-sage-dark mt-0 sm:mt-2" />
                               )}
                             </div>
                           </div>
@@ -603,7 +603,7 @@ export default function Booking() {
             {/* Step 2: Select Programme (Optional) */}
             {step === 2 && (
               <ScrollReveal>
-                <div className="p-9">
+                <div className="p-5 sm:p-9">
                   <div className="flex items-center justify-between mb-2">
                     <h2 className="font-playfair text-2xl font-bold text-text-heading">Select Your Programme</h2>
                     <span className="px-3 py-1 rounded-full bg-sage/10 text-sage-dark font-montserrat text-xs font-bold">Optional</span>
@@ -618,13 +618,13 @@ export default function Booking() {
                         <button
                           key={programme.id}
                           onClick={() => setSelectedProgramme(isSelected ? null : programme.id)}
-                          className={`w-full text-left rounded-2xl border-2 p-5 transition-all duration-300 ${
+                          className={`w-full text-left rounded-2xl border-2 p-4 sm:p-5 transition-all duration-300 ${
                             isSelected
                               ? 'border-sage-dark bg-sage/5'
                               : 'border-sage/30 hover:border-sage-dark'
                           }`}
                         >
-                          <div className="flex items-start justify-between gap-4">
+                          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
                             <div className="flex-1">
                               <div className="flex items-center gap-3 mb-1">
                                 <h3 className="font-playfair text-lg font-bold text-text-heading">{programme.title}</h3>
@@ -645,10 +645,10 @@ export default function Booking() {
                                 <Clock size={12} /> {programme.duration_weeks} weeks
                               </span>
                             </div>
-                            <div className="text-right flex-shrink-0">
+                            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 flex-shrink-0 border-t sm:border-t-0 border-sage/10 pt-3 sm:pt-0">
                               <p className="font-playfair text-xl font-bold text-sage-dark">{formatPrice(programme.price_pence)}</p>
                               {isSelected && (
-                                <CheckCircle2 size={18} className="text-sage-dark ml-auto mt-2" />
+                                <CheckCircle2 size={18} className="text-sage-dark ml-auto mt-0 sm:mt-2" />
                               )}
                             </div>
                           </div>
@@ -660,14 +660,14 @@ export default function Booking() {
                   {/* Skip option */}
                   <button
                     onClick={() => setSelectedProgramme(null)}
-                    className={`w-full mt-4 text-left rounded-2xl border-2 p-5 transition-all duration-300 ${
+                    className={`w-full mt-4 text-left rounded-2xl border-2 p-4 sm:p-5 transition-all duration-300 ${
                       selectedProgramme === null
                         ? 'border-sage-dark bg-sage/5'
                         : 'border-sage/20 hover:border-sage/40'
                     }`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-sage/10 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-2xl bg-sage/10 flex items-center justify-center flex-shrink-0">
                         <X size={20} className="text-sage-dark" />
                       </div>
                       <div className="flex-1">
@@ -708,18 +708,18 @@ export default function Booking() {
                         </button>
                       </div>
                     ) : (
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <input
                           type="text"
                           value={discountCode}
                           onChange={(e) => { setDiscountCode(e.target.value.toUpperCase()); setDiscountError(''); }}
                           placeholder="Enter promo code"
-                          className="flex-1 px-4 py-3 rounded-xl border-2 border-sage/30 font-montserrat text-sm uppercase tracking-wider focus:border-sage-dark focus:outline-none"
+                          className="flex-1 px-4 py-3 rounded-xl border-2 border-sage/30 font-montserrat text-sm uppercase tracking-wider focus:border-sage-dark focus:outline-none w-full"
                         />
                         <button
                           onClick={validateDiscountCode}
                           disabled={!discountCode.trim() || validatingDiscount}
-                          className="px-5 py-3 rounded-xl bg-sage-dark text-white font-montserrat text-sm font-bold hover:bg-sage-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                          className="w-full sm:w-auto px-5 py-3 rounded-xl bg-sage-dark text-white font-montserrat text-sm font-bold hover:bg-sage-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 flex-shrink-0"
                         >
                           {validatingDiscount ? (
                             <Loader2 size={16} className="animate-spin" />
@@ -740,14 +740,14 @@ export default function Booking() {
             {/* Step 3: Choose Date */}
             {step === 3 && (
               <ScrollReveal>
-                <div className="p-9">
+                <div className="p-5 sm:p-9">
                   <h2 className="font-playfair text-2xl font-bold text-text-heading mb-2">Select a Date</h2>
                   <p className="font-montserrat text-sm text-text-body mb-8">
                     Choose your preferred appointment date. Only available working days are selectable.
                   </p>
 
                   {/* Calendar */}
-                  <div className="rounded-2xl p-6" style={{ background: '#FAF8F3' }}>
+                  <div className="rounded-2xl p-3 sm:p-6" style={{ background: '#FAF8F3' }}>
                     {/* Month navigation */}
                     <div className="flex items-center justify-between mb-6">
                       <button onClick={prevMonth} className="w-9 h-9 rounded-full border-2 border-sage-dark flex items-center justify-center hover:bg-sage/10 transition-colors">
@@ -813,7 +813,7 @@ export default function Booking() {
             {/* Step 4: Choose Time */}
             {step === 4 && (
               <ScrollReveal>
-                <div className="p-9">
+                <div className="p-5 sm:p-9">
                   <h2 className="font-playfair text-2xl font-bold text-text-heading mb-2">Select a Time</h2>
                   <p className="font-montserrat text-sm text-text-body mb-2">
                     Available times for {selectedDay} {MONTHS[calMonth]} {calYear} (GMT/BST)
@@ -829,12 +829,12 @@ export default function Booking() {
                       </p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
                       {availableTimes.map((time) => (
                         <button
                           key={time}
                           onClick={() => setSelectedTime(time)}
-                          className={`py-3.5 rounded-2xl border-2 font-montserrat text-sm font-medium transition-all duration-300 ${
+                          className={`py-3 sm:py-3.5 rounded-2xl border-2 font-montserrat text-xs sm:text-sm font-medium transition-all duration-300 ${
                             selectedTime === time
                               ? 'border-sage-dark bg-sage-dark text-white'
                               : 'border-sage/30 text-text-body hover:border-sage-dark hover:bg-sage/5'
@@ -852,7 +852,7 @@ export default function Booking() {
             {/* Step 5: Health Questionnaire */}
             {step === 5 && (
               <ScrollReveal>
-                <div className="p-9">
+                <div className="p-5 sm:p-9">
                   <h2 className="font-playfair text-2xl font-bold text-text-heading mb-2">Health Questionnaire</h2>
                   <p className="font-montserrat text-sm text-text-body mb-8">
                     Help Teagan prepare for your consultation. Fields marked * are required.
@@ -948,7 +948,7 @@ export default function Booking() {
             {/* Step 6: Confirm & Submit */}
             {step === 6 && (
               <ScrollReveal>
-                <div className="p-9">
+                <div className="p-5 sm:p-9">
                   <h2 className="font-playfair text-2xl font-bold text-text-heading mb-2">Review & Confirm</h2>
                   <p className="font-montserrat text-sm text-text-body mb-8">Please review your booking details before submitting.</p>
 
@@ -1044,7 +1044,7 @@ export default function Booking() {
             )}
 
             {/* Navigation */}
-            <div className="px-9 py-6 border-t border-sage/10 flex items-center justify-between">
+            <div className="px-5 sm:px-9 py-4 sm:py-6 border-t border-sage/10 flex items-center justify-between">
               <button
                 onClick={() => setStep(Math.max(1, step - 1))}
                 disabled={step === 1}
