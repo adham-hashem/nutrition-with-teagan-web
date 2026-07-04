@@ -12,7 +12,6 @@ import {
   Star,
   User,
 } from 'lucide-react';
-import ImageUploader from '../components/ImageUploader';
 
 interface Testimonial {
   id: string;
@@ -320,23 +319,6 @@ export default function TestimonialsPage() {
                     className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className="block font-montserrat text-xs font-semibold uppercase tracking-wider text-text-secondary mb-2">
-                  Client Photo (optional)
-                </label>
-                <ImageUploader
-                  value={selectedTestimonial.image_url || ''}
-                  onChange={(url) =>
-                    setSelectedTestimonial({
-                      ...selectedTestimonial,
-                      image_url: url || null,
-                    })
-                  }
-                  folder="nutrition-teagan/testimonials"
-                  aspectRatio="square"
-                />
               </div>
 
               <div>
