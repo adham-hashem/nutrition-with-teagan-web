@@ -177,28 +177,6 @@ export default function Contact() {
                   ))}
                 </ul>
               </div>
-
-              {/* Newsletter */}
-              <div className="bg-white rounded-2xl p-7 shadow-card">
-                <p className="section-tag">Newsletter</p>
-                <h4 className="font-playfair text-xl font-medium text-text-primary mb-3">
-                  Join the Wellness Community
-                </h4>
-                <p className="font-montserrat text-sm text-text-secondary leading-relaxed mb-5">
-                  Receive nourishing wellness insights, seasonal recipes, and exclusive content directly to your inbox.
-                </p>
-                <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="email"
-                    placeholder="Your email"
-                    className="flex-1 px-4 py-3 rounded-full border border-sage/25 bg-cream-DEFAULT font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-sage/30 transition"
-                    style={{ background: '#FAF8F3' }}
-                  />
-                  <button type="submit" className="btn-primary text-xs px-6 py-3 whitespace-nowrap">
-                    Subscribe
-                  </button>
-                </form>
-              </div>
             </div>
           </ScrollReveal>
 

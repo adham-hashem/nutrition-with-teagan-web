@@ -100,32 +100,9 @@ const staticTestimonials = [
   },
 ];
 
-const staticArticles = [
-  {
-    category: 'Hormones',
-    title: 'Understanding Your Cycle: A Nutritional Guide to Each Phase',
-    excerpt: 'Learn how to nourish your body through each phase of your menstrual cycle for optimal hormonal balance.',
-    image: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=600',
-    date: 'Dec 2024',
-  },
-  {
-    category: 'Gut Health',
-    title: 'The Gut-Skin Connection: Why Your Skin Starts in the Gut',
-    excerpt: 'Discover the science behind the gut-skin axis and how healing your microbiome can clear your complexion.',
-    image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600',
-    date: 'Nov 2024',
-  },
-  {
-    category: 'Nutrition',
-    title: '5 Anti-Inflammatory Foods Every Woman Should Eat Weekly',
-    excerpt: 'These powerful whole foods reduce systemic inflammation and support hormones, skin, and energy levels.',
-    image: 'https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=600',
-    date: 'Nov 2024',
-  },
-];
-
 interface ArticleItem {
   id?: string;
+  slug?: string;
   category: string;
   title: string;
   excerpt: string;
@@ -135,7 +112,7 @@ interface ArticleItem {
 
 export default function Home() {
   const offset = useParallax();
-  const [recentArticles, setRecentArticles] = useState<ArticleItem[]>(staticArticles);
+  const [recentArticles, setRecentArticles] = useState<ArticleItem[]>([]);
   const [recentTestimonials, setRecentTestimonials] = useState(staticTestimonials);
 
   useEffect(() => {
@@ -161,6 +138,7 @@ export default function Home() {
             const dateObj = p.published_at ? new Date(p.published_at) : new Date(p.created_at);
             return {
               id: p.id,
+              slug: p.slug,
               category: p.blog_categories?.name || 'Nutrition',
               title: p.title,
               excerpt: p.excerpt || '',
@@ -653,56 +631,58 @@ export default function Home() {
       </section>
 
       {/* ─── LATEST ARTICLES ─── */}
-      <section className="relative overflow-hidden py-16 lg:py-10 px-6 order-8 bg-gradient-warm">
-        <Leaf className="absolute top-12 right-[7%] text-sage/10 hidden lg:block animate-float-leaf" size={34} />
-        <Sparkles className="absolute bottom-12 left-[8%] text-[#D6C27A]/40 hidden lg:block animate-float-soft" size={26} />
-        <BotanicalDivider />
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-              <div>
-                <p className="section-tag">From the Blog</p>
-                <h2 className="section-title">
-                  Wellness Wisdom &<br />
-                  <em className="not-italic text-sage-dark">Nourishing Insights</em>
-                </h2>
-              </div>
-              <Link to="/blog" className="btn-outline self-start">
-                View All Articles
-              </Link>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {recentArticles.map((article, i) => (
-              <ScrollReveal key={article.title} delay={i * 100}>
-                <Link to={article.id ? `/blog/${article.id}` : "/blog"} className="group block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
-                  <div className="overflow-hidden h-52">
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-7">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-montserrat text-xs font-bold text-sage-dark uppercase tracking-wider px-3 py-1 rounded-full" style={{ background: 'rgba(122, 139, 112, 0.2)' }}>
-                        {article.category}
-                      </span>
-                      <span className="font-montserrat text-xs font-medium text-text-small">{article.date}</span>
-                    </div>
-                    <h3 className="font-playfair text-lg font-bold text-text-heading mb-3 leading-snug group-hover:text-sage-dark transition-colors duration-300">
-                      {article.title}
-                    </h3>
-                    <p className="font-montserrat text-sm font-medium text-text-body leading-relaxed">{article.excerpt}</p>
-                  </div>
+      {recentArticles.length > 0 && (
+        <section className="relative overflow-hidden py-16 lg:py-10 px-6 order-8 bg-gradient-warm">
+          <Leaf className="absolute top-12 right-[7%] text-sage/10 hidden lg:block animate-float-leaf" size={34} />
+          <Sparkles className="absolute bottom-12 left-[8%] text-[#D6C27A]/40 hidden lg:block animate-float-soft" size={26} />
+          <BotanicalDivider />
+          <div className="max-w-7xl mx-auto">
+            <ScrollReveal>
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+                <div>
+                  <p className="section-tag">From the Blog</p>
+                  <h2 className="section-title">
+                    Wellness Wisdom &<br />
+                    <em className="not-italic text-sage-dark">Nourishing Insights</em>
+                  </h2>
+                </div>
+                <Link to="/blog" className="btn-outline self-start">
+                  View All Articles
                 </Link>
-              </ScrollReveal>
-            ))}
+              </div>
+            </ScrollReveal>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {recentArticles.map((article, i) => (
+                <ScrollReveal key={article.title} delay={i * 100}>
+                  <Link to={article.slug ? `/blog/${article.slug}` : (article.id ? `/blog/${article.id}` : "/blog")} className="group block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
+                    <div className="overflow-hidden h-52">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-7">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="font-montserrat text-xs font-bold text-sage-dark uppercase tracking-wider px-3 py-1 rounded-full" style={{ background: 'rgba(122, 139, 112, 0.2)' }}>
+                          {article.category}
+                        </span>
+                        <span className="font-montserrat text-xs font-medium text-text-small">{article.date}</span>
+                      </div>
+                      <h3 className="font-playfair text-lg font-bold text-text-heading mb-3 leading-snug group-hover:text-sage-dark transition-colors duration-300">
+                        {article.title}
+                      </h3>
+                      <p className="font-montserrat text-sm font-medium text-text-body leading-relaxed">{article.excerpt}</p>
+                    </div>
+                  </Link>
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ─── LUXURY CTA ─── */}
       <section className="relative overflow-hidden py-16 lg:py-10 px-6 order-9 bg-gradient-sage-soft">

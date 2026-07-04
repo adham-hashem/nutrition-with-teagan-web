@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 
 interface Article {
   id: string;
+  slug: string;
   category: string;
   title: string;
   excerpt: string;
@@ -58,6 +59,7 @@ export default function Blog() {
 
             return {
               id: row.id,
+              slug: row.slug,
               category: row.blog_categories?.name || 'Uncategorised',
               title: row.title,
               excerpt: row.excerpt || '',
@@ -185,7 +187,7 @@ export default function Blog() {
         <section className="px-6 mb-16">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
-              <Link to={`/blog/${featured.id}`} className="group block bg-white rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500">
+              <Link to={`/blog/${featured.slug}`} className="group block bg-white rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500">
                 <div className="grid lg:grid-cols-2 gap-0">
                   <div className="relative overflow-hidden h-64 lg:h-auto">
                     <img
@@ -239,7 +241,7 @@ export default function Blog() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {rest.map((article, i) => (
                 <ScrollReveal key={article.id} delay={i * 80}>
-                  <Link to={`/blog/${article.id}`} className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 h-full hover:border-sage/30" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
+                  <Link to={`/blog/${article.slug}`} className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 h-full hover:border-sage/30" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
                     <div className="overflow-hidden h-52">
                       <img
                         src={article.image}
@@ -275,31 +277,6 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Newsletter CTA */}
-      <section className="py-20 px-6" style={{ background: '#F4EFE6' }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <ScrollReveal>
-            <p className="section-tag">Never Miss an Article</p>
-            <h2 className="section-title mb-5">
-              Wellness Insights<br />
-              <em className="not-italic text-sage">Straight to Your Inbox</em>
-            </h2>
-            <p className="section-subtitle mb-8">
-              Subscribe to receive nourishing articles, seasonal wellness tips, and exclusive content from Teagan.
-            </p>
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 px-5 py-3.5 rounded-full border border-sage/30 bg-white font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-sage/30 transition"
-              />
-              <button type="submit" className="btn-primary whitespace-nowrap">
-                Subscribe
-              </button>
-            </form>
-          </ScrollReveal>
-        </div>
-      </section>
     </div>
   );
 }

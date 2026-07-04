@@ -17,36 +17,6 @@ const PinterestIcon = ({ size = 17, className = "" }: { size?: number; className
 export default function Footer() {
   return (
     <footer className="border-t-2" style={{ background: '#F4EFE6', borderColor: '#8A9C7A' }}>
-      {/* Newsletter Strip */}
-      <div className="py-14 px-6" style={{ background: 'rgba(138, 156, 122, 0.1)' }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="section-tag">Stay Connected</p>
-          <h3 className="font-playfair text-2xl md:text-3xl font-bold text-text-heading mb-3">
-            Wellness Wisdom, Delivered
-          </h3>
-          <p className="font-montserrat text-sm font-medium text-text-body mb-8 leading-relaxed">
-            Receive nourishing insights on hormones, gut health, skin, and seasonal wellness — straight to your inbox.
-          </p>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-          >
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="flex-1 px-5 py-3.5 rounded-full bg-white font-montserrat text-sm text-text-heading placeholder:text-text-body focus:outline-none transition"
-              style={{ border: '2px solid #8A9C7A' }}
-            />
-            <button
-              type="submit"
-              className="bg-sage text-white font-montserrat text-xs font-bold tracking-[0.15em] uppercase px-7 py-3.5 rounded-full transition-all duration-300 hover:bg-sage-dark hover:shadow-soft whitespace-nowrap"
-            >
-              Subscribe
-            </button>
-          </form>
-        </div>
-      </div>
-
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
