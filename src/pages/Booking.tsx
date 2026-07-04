@@ -359,11 +359,23 @@ export default function Booking() {
     const scheduledAt = new Date(calYear, calMonth, selectedDay, hours, minutes);
 
     try {
+      let bookingType: 'initial' | 'follow-up' | 'programme' = 'initial';
+      if (selectedProgramme) {
+        bookingType = 'programme';
+      } else if (selectedServiceData) {
+        const titleLower = selectedServiceData.title.toLowerCase();
+        if (titleLower.includes('follow')) {
+          bookingType = 'follow-up';
+        } else {
+          bookingType = 'initial';
+        }
+      }
+
       const bookingData = {
         client_name: form.fullName,
         client_email: form.email,
         client_phone: form.phone || null,
-        booking_type: 'consultation',
+        booking_type: bookingType,
         service_id: selectedService,
         programme_id: selectedProgramme,
         scheduled_at: scheduledAt.toISOString(),
@@ -927,28 +939,6 @@ export default function Booking() {
                         value={form.mainConcern}
                         onChange={(e) => setForm({ ...form, mainConcern: e.target.value })}
                         placeholder="e.g. PCOS, bloating, hormonal acne..."
-                        className="w-full px-4 py-3.5 rounded-2xl border-2 border-sage/30 bg-cream-DEFAULT font-montserrat text-sm focus:border-sage-dark focus:outline-none transition"
-                        style={{ background: '#FAF8F3' }}
-                      />
-                    </div>
-                    <div>
-                      <label className="font-montserrat text-xs font-bold uppercase tracking-wider text-text-body block mb-2">Current Symptoms</label>
-                      <textarea
-                        value={form.symptoms}
-                        onChange={(e) => setForm({ ...form, symptoms: e.target.value })}
-                        placeholder="Describe your current symptoms in as much detail as you'd like..."
-                        rows={3}
-                        className="w-full px-4 py-4 rounded-2xl border-2 border-sage/30 bg-cream-DEFAULT font-montserrat text-sm focus:border-sage-dark focus:outline-none transition resize-none"
-                        style={{ background: '#FAF8F3' }}
-                      />
-                    </div>
-                    <div>
-                      <label className="font-montserrat text-xs font-bold uppercase tracking-wider text-text-body block mb-2">Current Medications & Supplements</label>
-                      <input
-                        type="text"
-                        value={form.medications}
-                        onChange={(e) => setForm({ ...form, medications: e.target.value })}
-                        placeholder="List any medications, supplements, or contraceptives..."
                         className="w-full px-4 py-3.5 rounded-2xl border-2 border-sage/30 bg-cream-DEFAULT font-montserrat text-sm focus:border-sage-dark focus:outline-none transition"
                         style={{ background: '#FAF8F3' }}
                       />
