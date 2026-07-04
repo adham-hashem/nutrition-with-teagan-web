@@ -282,7 +282,7 @@ export default function AvailabilityPage() {
                       )}
                     </div>
                     <div>
-                      <p className="font-montserrat text-sm font-medium text-text-primary">
+                      <p className="font-montserrat text-sm font-medium text-text-primary text-left" dir="ltr">
                         {formatDate(exception.exception_date)}
                       </p>
                       <div className="flex items-center gap-2 mt-0.5">
@@ -377,7 +377,8 @@ export default function AvailabilityPage() {
                         onChange={(e) =>
                           setSelectedTemplate({ ...selectedTemplate, start_time: e.target.value })
                         }
-                        className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm"
+                        className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm text-left"
+                        dir="ltr"
                       />
                     </div>
                     <div>
@@ -390,7 +391,8 @@ export default function AvailabilityPage() {
                         onChange={(e) =>
                           setSelectedTemplate({ ...selectedTemplate, end_time: e.target.value })
                         }
-                        className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm"
+                        className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm text-left"
+                        dir="ltr"
                       />
                     </div>
                   </div>
@@ -427,7 +429,8 @@ export default function AvailabilityPage() {
                     onChange={(e) =>
                       setSelectedException({ ...selectedException, exception_date: e.target.value })
                     }
-                    className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm"
+                    className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm text-left"
+                    dir="ltr"
                   />
                 </div>
 
@@ -485,7 +488,8 @@ export default function AvailabilityPage() {
                             },
                           })
                         }
-                        className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm"
+                        className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm text-left"
+                        dir="ltr"
                       />
                     </div>
                     <div>
@@ -504,7 +508,8 @@ export default function AvailabilityPage() {
                             },
                           })
                         }
-                        className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm"
+                        className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm text-left"
+                        dir="ltr"
                       />
                     </div>
                   </div>

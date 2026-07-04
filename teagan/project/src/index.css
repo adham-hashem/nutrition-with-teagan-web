@@ -281,3 +281,12 @@
   .animate-float-leaf,
   .animate-drift-slow { animation: none; }
 }
+
+/* Fix RTL formatting issues on date/time/tel inputs */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="tel"] {
+  direction: ltr !important;
+  text-align: left !important;
+}

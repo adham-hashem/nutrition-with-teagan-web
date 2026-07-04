@@ -45,7 +45,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#FAF8F3' }}>
+    <div className="min-h-screen flex" style={{ background: '#FAF8F3' }} dir="ltr">
       {/* Desktop Sidebar */}
       <aside
         className={`hidden lg:flex flex-col fixed left-0 top-0 h-full border-r border-sage/10 transition-all duration-300 z-20 ${

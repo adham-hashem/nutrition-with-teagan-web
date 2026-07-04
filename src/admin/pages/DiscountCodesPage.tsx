@@ -378,7 +378,8 @@ export default function DiscountCodesPage() {
                 value={formData.expires_at}
                 onChange={e => setFormData(prev => ({ ...prev, expires_at: e.target.value }))}
                 min={new Date().toISOString().split('T')[0]}
-                className="w-full px-4 py-2.5 rounded-xl border border-sage/30 font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-sage-dark"
+                className="w-full px-4 py-2.5 rounded-xl border border-sage/30 font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-sage-dark text-left"
+                dir="ltr"
               />
             </div>
 

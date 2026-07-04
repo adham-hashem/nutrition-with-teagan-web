@@ -927,7 +927,8 @@ export default function Booking() {
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         placeholder="+44 7XXX XXXXXX"
-                        className="w-full px-4 py-3.5 rounded-2xl border-2 border-sage/30 bg-cream-DEFAULT font-montserrat text-sm focus:border-sage-dark focus:outline-none transition"
+                        className="w-full px-4 py-3.5 rounded-2xl border-2 border-sage/30 bg-cream-DEFAULT font-montserrat text-sm focus:border-sage-dark focus:outline-none transition text-left"
+                        dir="ltr"
                         style={{ background: '#FAF8F3' }}
                       />
                     </div>
