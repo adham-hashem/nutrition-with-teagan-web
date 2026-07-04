@@ -124,9 +124,18 @@ const staticArticles = [
   },
 ];
 
+interface ArticleItem {
+  id?: string;
+  category: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+}
+
 export default function Home() {
   const offset = useParallax();
-  const [recentArticles, setRecentArticles] = useState(staticArticles);
+  const [recentArticles, setRecentArticles] = useState<ArticleItem[]>(staticArticles);
   const [recentTestimonials, setRecentTestimonials] = useState(staticTestimonials);
 
   useEffect(() => {
@@ -151,6 +160,7 @@ export default function Home() {
           setRecentArticles(postsRes.data.map(p => {
             const dateObj = p.published_at ? new Date(p.published_at) : new Date(p.created_at);
             return {
+              id: p.id,
               category: p.blog_categories?.name || 'Nutrition',
               title: p.title,
               excerpt: p.excerpt || '',
@@ -666,7 +676,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {recentArticles.map((article, i) => (
               <ScrollReveal key={article.title} delay={i * 100}>
-                <Link to="/blog" className="group block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
+                <Link to={article.id ? `/blog/${article.id}` : "/blog"} className="group block bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
                   <div className="overflow-hidden h-52">
                     <img
                       src={article.image}

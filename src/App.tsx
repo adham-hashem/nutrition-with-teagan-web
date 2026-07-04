@@ -8,6 +8,7 @@ import About from './pages/About';
 import Services from './pages/Services';
 import Programs from './pages/Programs';
 import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import Testimonials from './pages/Testimonials';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
@@ -32,6 +33,7 @@ function PublicLayout() {
           <Route path="/services" element={<Services />} />
           <Route path="/programs" element={<Programs />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />

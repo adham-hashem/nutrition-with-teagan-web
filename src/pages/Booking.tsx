@@ -1060,29 +1060,46 @@ export default function Booking() {
             {/* Navigation */}
             <div className="px-5 sm:px-9 py-4 sm:py-6 border-t border-sage/10 flex items-center justify-between">
               <button
-                onClick={() => setStep(Math.max(1, step - 1))}
+                onClick={() => {
+                  setStep(Math.max(1, step - 1));
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 disabled={step === 1}
-                className={`flex items-center gap-2 font-montserrat text-sm font-bold transition-all duration-300 ${
-                  step === 1 ? 'text-text-light cursor-not-allowed' : 'text-text-body hover:text-sage'
+                className={`flex items-center justify-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3 rounded-full border-2 font-montserrat text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:shadow-soft active:translate-y-0 ${
+                  step === 1
+                    ? 'opacity-0 pointer-events-none border-transparent text-transparent'
+                    : 'border-sage/35 text-sage-dark hover:bg-sage/5 hover:border-sage hover:-translate-y-0.5 cursor-pointer'
                 }`}
               >
-                <ChevronLeft size={16} /> Back
+                <ChevronLeft size={16} strokeWidth={2.5} /> Back
               </button>
-              <span className="font-montserrat text-xs text-text-light">
+              <span className="font-montserrat text-xs font-semibold text-text-light">
                 {step} / {totalSteps}
               </span>
               {step < totalSteps ? (
                 <button
-                  onClick={() => canProceed() && setStep(step + 1)}
+                  onClick={() => {
+                    if (canProceed()) {
+                      setStep(step + 1);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  }}
                   disabled={!canProceed()}
-                  className={`flex items-center gap-2 font-montserrat text-sm font-bold transition-all duration-300 ${
-                    canProceed() ? 'text-sage hover:text-sage-dark' : 'text-text-light cursor-not-allowed'
+                  className={`flex items-center justify-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3 rounded-full border-2 font-montserrat text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-300 active:translate-y-0 ${
+                    canProceed()
+                      ? 'bg-sage border-sage text-white hover:bg-sage-dark hover:border-sage-dark hover:shadow-soft hover:-translate-y-0.5 cursor-pointer'
+                      : 'bg-sage-light/20 border-sage-light/10 text-text-light/40 cursor-not-allowed'
                   }`}
+                >
+                  Next <ChevronRight size={16} strokeWidth={2.5} />
+                </button>
+              ) : (
+                <button
+                  disabled={true}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3 rounded-full border-2 border-transparent text-transparent font-montserrat text-xs sm:text-sm font-bold tracking-wider uppercase opacity-0 pointer-events-none"
                 >
                   Next <ChevronRight size={16} />
                 </button>
-              ) : (
-                <div />
               )}
             </div>
           </div>

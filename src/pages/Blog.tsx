@@ -185,7 +185,7 @@ export default function Blog() {
         <section className="px-6 mb-16">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
-              <Link to="#" className="group block bg-white rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500">
+              <Link to={`/blog/${featured.id}`} className="group block bg-white rounded-[2.5rem] overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500">
                 <div className="grid lg:grid-cols-2 gap-0">
                   <div className="relative overflow-hidden h-64 lg:h-auto">
                     <img
@@ -239,7 +239,7 @@ export default function Blog() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {rest.map((article, i) => (
                 <ScrollReveal key={article.id} delay={i * 80}>
-                  <Link to="#" className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 h-full hover:border-sage/30" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
+                  <Link to={`/blog/${article.id}`} className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 h-full hover:border-sage/30" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
                     <div className="overflow-hidden h-52">
                       <img
                         src={article.image}
