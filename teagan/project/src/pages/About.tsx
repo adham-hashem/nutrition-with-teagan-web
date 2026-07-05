@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle2, Leaf, Heart, BookOpen, Award } from 'lucide-r
 import ScrollReveal from '../components/ScrollReveal';
 
 const qualifications = [
-  { icon: <Award size={18} />, title: 'BHSc Nutritional Medicine', body: 'Bachelor of Health Science with a specialisation in Nutritional Medicine.' },
+  { icon: <Award size={18} />, title: 'Diploma in Nutritional Therapy', body: 'Advanced diploma in nutritional therapy with a focus on functional nutrition and naturopathic principles.' },
   { icon: <BookOpen size={18} />, title: 'Naturopathic Practitioner', body: 'Certified naturopathic nutritionist with a whole-body approach to healing.' },
   { icon: <Leaf size={18} />, title: 'AFN Member', body: 'Active member of the Association for Nutrition (AFN), committed to ongoing professional development.' },
   { icon: <Heart size={18} />, title: "Women's Health Specialist", body: "Specialised postgraduate training in women's hormonal and reproductive health." },
@@ -71,7 +71,7 @@ export default function About() {
                   Teagan's journey into naturopathic nutrition began with her own health struggles. After years of battling hormonal imbalances, debilitating PMS, and persistent skin concerns — and feeling dismissed by conventional medicine — she discovered the profound power of food as medicine.
                 </p>
                 <p>
-                  This personal transformation sparked a passion for holistic women's health that led her to pursue a Bachelor of Health Science in Nutritional Medicine, where she trained in evidence-based naturopathic nutrition, herbal medicine, and functional testing.
+                  This personal transformation sparked a passion for holistic women's health that led her to pursue a Diploma in nutritional therapy, where she trained in evidence-based naturopathic nutrition, herbal medicine, and functional testing.
                 </p>
                 <p>
                   Today, Teagan combines her clinical expertise with genuine empathy to help women across the UK and beyond reclaim their vitality, balance their hormones, heal their gut, and glow from the inside out.

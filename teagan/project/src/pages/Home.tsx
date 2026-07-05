@@ -287,7 +287,7 @@ export default function Home() {
                   <Sparkles size={14} className="text-yellow-mellow-accent" />
                   <p className="font-montserrat text-xs font-bold text-text-heading">Fully Qualified</p>
                 </div>
-                <p className="font-montserrat text-xs font-medium text-text-body">BHSc Nutritional Medicine</p>
+                <p className="font-montserrat text-xs font-medium text-text-body">Diploma in Nutritional Therapy</p>
               </div>
             </div>
           </ScrollReveal>
@@ -300,14 +300,14 @@ export default function Home() {
                 <em className="not-italic text-sage-dark">Whole-Body Wellness</em>
               </h2>
               <p className="font-montserrat text-base font-medium text-text-body leading-[1.85] mb-5">
-                Teagan is a qualified naturopathic nutritionist with a deep passion for helping women reclaim their health. With a Bachelor of Health Science in Nutritional Medicine, she combines evidence-based science with a holistic, personalised approach.
+                Teagan is a qualified naturopathic nutritionist with a deep passion for helping women reclaim their health. With a Diploma in Nutritional Therapy, she combines evidence-based science with a holistic, personalised approach.
               </p>
               <p className="font-montserrat text-base font-medium text-text-body leading-[1.85] mb-8">
                 Her philosophy centres on uncovering the root causes of symptoms — rather than masking them — to create lasting transformation from the inside out.
               </p>
               <ul className="space-y-3 mb-10">
                 {[
-                  'BHSc Nutritional Medicine',
+                  'Diploma in Nutritional Therapy',
                   'Certified Naturopathic Nutritionist',
                   'Member of the Association for Nutrition (AFN)',
                   'Specialised in Women\'s Health & Hormones',
