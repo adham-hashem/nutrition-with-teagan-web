@@ -5,7 +5,7 @@ import ScrollReveal from '../components/ScrollReveal';
 const qualifications = [
   { icon: <Award size={18} />, title: 'Diploma in Nutritional Therapy', body: 'Advanced diploma in nutritional therapy with a focus on functional nutrition and naturopathic principles.' },
   { icon: <BookOpen size={18} />, title: 'Naturopathic Practitioner', body: 'Certified naturopathic nutritionist with a whole-body approach to healing.' },
-  { icon: <Leaf size={18} />, title: 'AFN Member', body: 'Active member of the Association for Nutrition (AFN), committed to ongoing professional development.' },
+  { icon: <Leaf size={18} />, title: 'ANP Member', body: 'Active member of ANP (Association of Naturopathic Practitioners), committed to ongoing professional development.' },
   { icon: <Heart size={18} />, title: "Women's Health Specialist", body: "Specialised postgraduate training in women's hormonal and reproductive health." },
 ];
 

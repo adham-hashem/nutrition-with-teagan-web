@@ -309,7 +309,7 @@ export default function Home() {
                 {[
                   'Diploma in Nutritional Therapy',
                   'Certified Naturopathic Nutritionist',
-                  'Member of the Association for Nutrition (AFN)',
+                  'Member of ANP (Association of Naturopathic Practitioners)',
                   'Specialised in Women\'s Health & Hormones',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
