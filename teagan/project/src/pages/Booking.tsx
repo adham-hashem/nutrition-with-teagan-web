@@ -41,6 +41,19 @@ interface AvailabilitySettings {
   blocked_dates: string[];
 }
 
+interface AvailabilityTemplate {
+  day_of_week: number;
+  start_time: string;
+  end_time: string;
+  is_working_day: boolean;
+}
+
+interface AvailabilityException {
+  exception_date: string;
+  exception_type: 'holiday' | 'blocked' | 'special';
+  alternative_hours: { start: string; end: string } | null;
+}
+
 function getDaysInMonth(year: number, month: number) {
   return new Date(year, month + 1, 0).getDate();
 }
@@ -65,6 +78,8 @@ export default function Booking() {
   const [services, setServices] = useState<Service[]>([]);
   const [programmes, setProgrammes] = useState<Programme[]>([]);
   const [loading, setLoading] = useState(true);
+  const [templates, setTemplates] = useState<AvailabilityTemplate[]>([]);
+  const [exceptions, setExceptions] = useState<AvailabilityException[]>([]);
   const [availability, setAvailability] = useState<AvailabilitySettings>({
     start_hour: 9,
     end_hour: 17,
@@ -144,21 +159,30 @@ export default function Booking() {
   }
 
   async function fetchAvailability() {
-    const { data } = await supabase
-      .from('availability_settings')
-      .select('*')
-      .limit(1)
-      .single();
+    try {
+      const [settingsRes, templatesRes, exceptionsRes] = await Promise.all([
+        supabase.from('availability_settings').select('*').maybeSingle(),
+        supabase.from('availability_templates').select('*'),
+        supabase.from('availability_exceptions').select('*'),
+      ]);
 
-    if (data) {
-      setAvailability({
-        start_hour: data.start_hour || 9,
-        end_hour: data.end_hour || 17,
-        slot_duration_minutes: data.slot_duration_minutes || 30,
-        buffer_minutes: data.buffer_minutes || 15,
-        working_days: data.working_days || [1, 2, 3, 4, 5],
-        blocked_dates: data.blocked_dates || [],
-      });
+      if (settingsRes && settingsRes.data) {
+        setAvailability(prev => ({
+          ...prev,
+          slot_duration_minutes: settingsRes.data.slot_duration_minutes || 30,
+          buffer_minutes: settingsRes.data.buffer_minutes || 15,
+        }));
+      }
+
+      if (templatesRes && templatesRes.data) {
+        setTemplates(templatesRes.data as AvailabilityTemplate[]);
+      }
+
+      if (exceptionsRes && exceptionsRes.data) {
+        setExceptions(exceptionsRes.data as AvailabilityException[]);
+      }
+    } catch (error) {
+      console.error('Error fetching availability:', error);
     }
   }
 
@@ -192,17 +216,57 @@ export default function Booking() {
   }
 
   const generateTimeSlots = () => {
+    if (!selectedDay) return [];
     const slots: string[] = [];
-    for (let h = availability.start_hour; h < availability.end_hour; h++) {
-      for (let m = 0; m < 60; m += availability.slot_duration_minutes) {
-        const slotKey = `${h}:${m.toString().padStart(2, '0')}`;
-        if (!bookedSlots.includes(slotKey)) {
-          const hour12 = h > 12 ? h - 12 : h === 0 ? 12 : h;
-          const ampm = h >= 12 ? 'PM' : 'AM';
-          slots.push(`${hour12}:${m.toString().padStart(2, '0')} ${ampm}`);
-        }
+
+    const selectedDate = new Date(calYear, calMonth, selectedDay);
+    const jsDayOfWeek = selectedDate.getDay();
+    const templateDay = jsDayOfWeek === 0 ? 6 : jsDayOfWeek - 1;
+    const dateStr = `${calYear}-${(calMonth + 1).toString().padStart(2, '0')}-${selectedDay.toString().padStart(2, '0')}`;
+
+    const exception = exceptions.find(e => e.exception_date === dateStr);
+    const template = templates.find(t => t.day_of_week === templateDay);
+
+    let startStr = '09:00';
+    let endStr = '17:00';
+
+    if (exception && exception.exception_type === 'special' && exception.alternative_hours) {
+      startStr = exception.alternative_hours.start;
+      endStr = exception.alternative_hours.end;
+    } else if (template && template.is_working_day) {
+      startStr = template.start_time;
+      endStr = template.end_time;
+    }
+
+    const parseTime = (timeStr: string, defaultHour: number) => {
+      if (!timeStr) return [defaultHour, 0];
+      const parts = timeStr.split(':').map(Number);
+      return [isNaN(parts[0]) ? defaultHour : parts[0], isNaN(parts[1]) ? 0 : parts[1]];
+    };
+
+    const [startH, startM] = parseTime(startStr, 9);
+    const [endH, endM] = parseTime(endStr, 17);
+
+    const slotDuration = availability.slot_duration_minutes || 30;
+
+    let currentHour = startH;
+    let currentMin = startM;
+
+    while (currentHour < endH || (currentHour === endH && currentMin < endM)) {
+      const slotKey = `${currentHour}:${currentMin.toString().padStart(2, '0')}`;
+      if (!bookedSlots.includes(slotKey)) {
+        const hour12 = currentHour > 12 ? currentHour - 12 : currentHour === 0 ? 12 : currentHour;
+        const ampm = currentHour >= 12 ? 'PM' : 'AM';
+        slots.push(`${hour12}:${currentMin.toString().padStart(2, '0')} ${ampm}`);
+      }
+
+      currentMin += slotDuration;
+      if (currentMin >= 60) {
+        currentHour += Math.floor(currentMin / 60);
+        currentMin = currentMin % 60;
       }
     }
+
     return slots;
   };
 
@@ -303,12 +367,25 @@ export default function Booking() {
 
   const isWorkingDay = (day: number) => {
     const dayOfWeek = new Date(calYear, calMonth, day).getDay();
-    return availability.working_days.includes(dayOfWeek);
+    // JS: 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
+    // Template: 0=Monday, 1=Tuesday, 2=Wednesday, 3=Thursday, 4=Friday, 5=Saturday, 6=Sunday
+    const templateDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+
+    if (templates.length === 0) {
+      return dayOfWeek >= 1 && dayOfWeek <= 5;
+    }
+
+    const template = templates.find(t => t.day_of_week === templateDay);
+    return template ? template.is_working_day : false;
   };
 
   const isBlockedDate = (day: number) => {
     const dateStr = `${calYear}-${(calMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-    return availability.blocked_dates.includes(dateStr);
+    const exception = exceptions.find(e => e.exception_date === dateStr);
+    if (exception) {
+      return exception.exception_type === 'holiday' || exception.exception_type === 'blocked';
+    }
+    return false;
   };
 
   const nextMonth = () => {
