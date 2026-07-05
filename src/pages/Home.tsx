@@ -110,15 +110,70 @@ interface ArticleItem {
   date: string;
 }
 
+interface ProgrammeItem {
+  id: string;
+  title: string;
+  duration: string;
+  price: string;
+  description: string;
+  image: string;
+  tag: string;
+  tagColor: string;
+}
+
+const defaultProgrammes: ProgrammeItem[] = [
+  {
+    id: '1',
+    title: 'Hormone Reset Programme',
+    duration: '12 Weeks',
+    price: 'From £350',
+    description: 'A comprehensive hormonal healing protocol addressing PCOS, PMS, cycle irregularities, and more.',
+    image: 'https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=600',
+    tag: 'Most Popular',
+    tagColor: '#A999C2',
+  },
+  {
+    id: '2',
+    title: 'Gut Healing Programme',
+    duration: '8 Weeks',
+    price: 'From £350',
+    description: 'Restore your gut microbiome, eliminate bloating, and achieve lasting digestive wellness.',
+    image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600',
+    tag: 'Bestseller',
+    tagColor: '#9FAF93',
+  },
+  {
+    id: '3',
+    title: 'Skin Health Programme',
+    duration: '10 Weeks',
+    price: 'From £320',
+    description: 'Address acne, eczema, and skin inflammation through an inside-out nutritional approach.',
+    image: 'https://images.pexels.com/photos/3373716/pexels-photo-3373716.jpeg?auto=compress&cs=tinysrgb&w=600',
+    tag: 'Transformative',
+    tagColor: '#D8C26D',
+  },
+  {
+    id: '4',
+    title: 'Metabolic Wellness Programme',
+    duration: '10 Weeks',
+    price: 'From £380',
+    description: 'Balance blood sugar, support thyroid health, and restore your natural energy and vitality.',
+    image: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=600',
+    tag: 'Revitalising',
+    tagColor: '#D8C89B',
+  },
+];
+
 export default function Home() {
   const offset = useParallax();
   const [recentArticles, setRecentArticles] = useState<ArticleItem[]>([]);
   const [recentTestimonials, setRecentTestimonials] = useState(staticTestimonials);
+  const [featuredProgrammes, setFeaturedProgrammes] = useState<ProgrammeItem[]>(defaultProgrammes);
 
   useEffect(() => {
     async function fetchHomeData() {
       try {
-        const [postsRes, testRes] = await Promise.all([
+        const [postsRes, testRes, progRes] = await Promise.all([
           supabase
             .from('blog_posts')
             .select('*, blog_categories(name)')
@@ -131,9 +186,14 @@ export default function Home() {
             .eq('is_approved', true)
             .order('display_order', { ascending: true })
             .limit(3),
+          supabase
+            .from('programmes')
+            .select('*')
+            .eq('is_active', true)
+            .order('display_order', { ascending: true })
         ]);
 
-        if (postsRes.data && postsRes.data.length > 0) {
+        if (postsRes && postsRes.data && postsRes.data.length > 0) {
           setRecentArticles(postsRes.data.map(p => {
             const dateObj = p.published_at ? new Date(p.published_at) : new Date(p.created_at);
             return {
@@ -148,12 +208,33 @@ export default function Home() {
           }));
         }
 
-        if (testRes.data && testRes.data.length > 0) {
+        if (testRes && testRes.data && testRes.data.length > 0) {
           setRecentTestimonials(testRes.data.map(t => ({
             quote: t.quote,
             name: t.client_name,
             tag: t.programme || 'Wellness Programme',
           })));
+        }
+
+        if (progRes && progRes.data && progRes.data.length > 0) {
+          setFeaturedProgrammes(progRes.data.map(p => {
+            const formattedPrice = new Intl.NumberFormat('en-GB', {
+              style: 'currency',
+              currency: 'GBP',
+              minimumFractionDigits: 0,
+            }).format(p.price_pence / 100);
+
+            return {
+              id: p.id,
+              title: p.title,
+              duration: `${p.duration_weeks} Weeks`,
+              price: `From ${formattedPrice}`,
+              description: p.description || '',
+              image: p.image_url || 'https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=600',
+              tag: p.tag || '',
+              tagColor: p.tag_color || '#9FAF93',
+            };
+          }));
         }
       } catch (error) {
         console.error('Error fetching home data:', error);
@@ -446,45 +527,8 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                title: 'Hormone Reset Programme',
-                duration: '12 Weeks',
-                price: 'From £350',
-                description: 'A comprehensive hormonal healing protocol addressing PCOS, PMS, cycle irregularities, and more.',
-                image: 'https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=600',
-                tag: 'Most Popular',
-                tagColor: '#A999C2',
-              },
-              {
-                title: 'Gut Healing Programme',
-                duration: '8 Weeks',
-                price: 'From £350',
-                description: 'Restore your gut microbiome, eliminate bloating, and achieve lasting digestive wellness.',
-                image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600',
-                tag: 'Bestseller',
-                tagColor: '#9FAF93',
-              },
-              {
-                title: 'Skin Health Programme',
-                duration: '10 Weeks',
-                price: 'From £320',
-                description: 'Address acne, eczema, and skin inflammation through an inside-out nutritional approach.',
-                image: 'https://images.pexels.com/photos/3373716/pexels-photo-3373716.jpeg?auto=compress&cs=tinysrgb&w=600',
-                tag: 'Transformative',
-                tagColor: '#D8C26D',
-              },
-              {
-                title: 'Metabolic Wellness Programme',
-                duration: '10 Weeks',
-                price: 'From £380',
-                description: 'Balance blood sugar, support thyroid health, and restore your natural energy and vitality.',
-                image: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=600',
-                tag: 'Revitalising',
-                tagColor: '#D8C89B',
-              },
-            ].map((program, i) => (
-              <ScrollReveal key={program.title} delay={i * 100}>
+            {featuredProgrammes.map((program, i) => (
+              <ScrollReveal key={program.id || program.title} delay={i * 100}>
                 <div className="group bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500 hover:border-sage/30" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
                   <div className="relative overflow-hidden h-52">
                     <img
