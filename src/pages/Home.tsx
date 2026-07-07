@@ -300,11 +300,11 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8 lg:mb-12">
               <Link to="/booking" className="btn-booking btn-pulse">
-                Book Consultation
+                Book a Consultation
                 <ArrowRight size={15} />
               </Link>
               <Link to="/services" className="btn-outline">
-                Explore Services
+                Explore our Services
               </Link>
             </div>
 
