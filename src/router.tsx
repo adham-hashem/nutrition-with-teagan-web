@@ -12,11 +12,12 @@ const RouterContext = createContext<RouterContextType>({
 
 
 export function Router({ children }: { children: ReactNode }) {
-  const [pathname, setPathname] = useState(() => window.location.pathname);
+  const [pathname, setPathname] = useState(() => window.location.pathname.split('?')[0].split('#')[0]);
 
   const navigate = useCallback((to: string) => {
     window.history.pushState(null, '', to);
-    setPathname(to);
+    const cleanPath = to.split('?')[0].split('#')[0];
+    setPathname(cleanPath);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
@@ -85,8 +86,9 @@ interface RoutesProps {
 }
 
 function matchPath(pathPattern: string, pathname: string): boolean {
+  const cleanPathname = pathname.split('?')[0].split('#')[0];
   const patternParts = pathPattern.split('/');
-  const pathParts = pathname.split('/');
+  const pathParts = cleanPathname.split('/');
 
   if (patternParts.length !== pathParts.length) {
     return false;

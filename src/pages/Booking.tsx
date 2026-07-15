@@ -100,7 +100,7 @@ export default function Booking() {
   const [calMonth, setCalMonth] = useState(today.getMonth());
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
   const [form, setForm] = useState({
@@ -417,16 +417,14 @@ export default function Booking() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError('');
-    setSubmitted(true);
 
     const selectedServiceData = services.find(s => s.id === selectedService);
     if (!selectedServiceData || !selectedDay || !selectedTime) return;
 
-    const totalPrice = getTotalPrice();
-    const { discount, finalPrice } = calculateDiscount(totalPrice);
-
     const timeMatch = selectedTime.match(/(\d+):(\d+)\s*(AM|PM)/i);
     if (!timeMatch) return;
+
+    setSubmitting(true);
 
     let hours = parseInt(timeMatch[1]);
     const minutes = parseInt(timeMatch[2]);
@@ -435,6 +433,8 @@ export default function Booking() {
     if (!isPM && hours === 12) hours = 0;
 
     const scheduledAt = new Date(calYear, calMonth, selectedDay, hours, minutes);
+    const totalPrice = getTotalPrice();
+    const { discount, finalPrice } = calculateDiscount(totalPrice);
 
     try {
       let bookingType: 'initial' | 'follow-up' | 'programme' = 'initial';
@@ -480,7 +480,7 @@ export default function Booking() {
       if (error || !data) {
         console.error('Booking error:', error);
         setSubmitError('Failed to submit booking. Please try again.');
-        setSubmitted(false);
+        setSubmitting(false);
       } else {
         // Redirect to booking status status/payment page
         navigate(`/booking/status?booking_id=${data.id}&action=pay`);
@@ -488,7 +488,7 @@ export default function Booking() {
     } catch (err) {
       console.error('Booking submission error:', err);
       setSubmitError('An error occurred. Please try again.');
-      setSubmitted(false);
+      setSubmitting(false);
     }
   };
 
@@ -525,74 +525,7 @@ export default function Booking() {
     );
   }
 
-  if (submitted) {
-    const totalPrice = getTotalPrice();
-    const { discount, finalPrice } = calculateDiscount(totalPrice);
 
-    return (
-      <div className="pt-28 lg:pt-36 min-h-screen flex items-center justify-center px-6" style={{ background: '#FAF8F3' }}>
-        <div className="max-w-lg w-full text-center">
-          <div className="w-20 h-20 rounded-full bg-sage/15 flex items-center justify-center mx-auto mb-8">
-            <CheckCircle2 size={38} className="text-sage" />
-          </div>
-          <h1 className="font-playfair text-3xl font-medium text-text-primary mb-4">Booking Request Submitted!</h1>
-          <p className="font-montserrat text-sm text-text-secondary leading-relaxed mb-3">
-            Thank you, <strong>{form.fullName}</strong>. Your booking request has been received.
-          </p>
-          <p className="font-montserrat text-sm text-text-secondary leading-relaxed mb-8">
-            Teagan's team will confirm your appointment via email within 24 hours. Please check {form.email} for your confirmation.
-          </p>
-          <div className="bg-white rounded-2xl p-7 shadow-card text-left mb-8">
-            <h4 className="font-montserrat text-xs font-bold uppercase tracking-wider text-text-light mb-4">Booking Summary</h4>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="font-montserrat text-xs text-text-light">Consultation Type</span>
-                <span className="font-montserrat text-sm font-medium text-text-primary">{selectedServiceData?.title}</span>
-              </div>
-              {selectedProgrammeData && (
-                <div className="flex justify-between">
-                  <span className="font-montserrat text-xs text-text-light">Programme</span>
-                  <span className="font-montserrat text-sm font-medium text-text-primary">{selectedProgrammeData.title}</span>
-                </div>
-              )}
-              <div className="flex justify-between">
-                <span className="font-montserrat text-xs text-text-light">Date</span>
-                <span className="font-montserrat text-sm font-medium text-text-primary">{selectedDay} {MONTHS[calMonth]} {calYear}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-montserrat text-xs text-text-light">Time</span>
-                <span className="font-montserrat text-sm font-medium text-text-primary">{selectedTime}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-montserrat text-xs text-text-light">Format</span>
-                <span className="font-montserrat text-sm font-medium text-text-primary">
-                  {selectedType === 'online' ? 'Online Consultation' : selectedType === 'in_person' ? 'In-Person' : 'Hybrid'}
-                </span>
-              </div>
-              <div className="border-t border-sage/15 pt-3 mt-3">
-                <div className="flex justify-between">
-                  <span className="font-montserrat text-xs text-text-light">Total Amount</span>
-                  <span className="font-playfair text-lg font-bold text-sage-dark">{formatPrice(finalPrice)}</span>
-                </div>
-                {appliedDiscount && discount > 0 && (
-                  <div className="flex justify-between mt-2">
-                    <span className="font-montserrat text-xs text-sage-dark flex items-center gap-1">
-                      <Tag size={12} />
-                      Discount Applied
-                    </span>
-                    <span className="font-montserrat text-xs font-medium text-sage-dark">-{formatPrice(discount)}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <Link to="/" className="btn-primary">
-            Return to Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="pt-28 lg:pt-36 min-h-screen overflow-x-hidden" style={{ background: '#FAF8F3' }}>
@@ -1117,9 +1050,22 @@ export default function Booking() {
                   </div>
 
                   <form onSubmit={handleSubmit}>
-                    <button type="submit" className="btn-primary w-full justify-center text-base py-4">
-                      Confirm Booking Request
-                      <CheckCircle2 size={18} />
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="btn-primary w-full justify-center text-base py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {submitting ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                          Processing Booking...
+                        </>
+                      ) : (
+                        <>
+                          Confirm Booking Request
+                          <CheckCircle2 size={18} />
+                        </>
+                      )}
                     </button>
                   </form>
                 </div>
