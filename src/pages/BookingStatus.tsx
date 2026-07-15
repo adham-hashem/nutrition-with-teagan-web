@@ -102,7 +102,7 @@ export default function BookingStatus() {
         throw new Error(errMsg);
       }
 
-      let data;
+      let data: any;
       try {
         data = await response.json();
       } catch (jsonErr) {
