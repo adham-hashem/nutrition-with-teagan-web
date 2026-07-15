@@ -77,6 +77,7 @@ export default function BookingStatus() {
   }, [bookingId]);
 
   async function initiatePayment(id: string) {
+    console.log('[BookingStatus] Initiating payment redirect for booking:', id);
     setRedirecting(true);
     setError(null);
     try {
@@ -88,13 +89,32 @@ export default function BookingStatus() {
         body: JSON.stringify({ bookingId: id }),
       });
 
+      console.log('[BookingStatus] API response status:', response.status, response.statusText);
+
       if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.message || 'Failed to create payment session.');
+        let errMsg = 'Failed to create payment session.';
+        try {
+          const errData = await response.json();
+          errMsg = errData.message || errMsg;
+        } catch (jsonErr) {
+          errMsg = `HTTP ${response.status}: ${response.statusText || 'Server Error'}. If running locally, please ensure you use 'vercel dev' to run API functions.`;
+        }
+        throw new Error(errMsg);
       }
 
-      const { url } = await response.json();
-      window.location.href = url; // Redirect to Stripe Checkout
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonErr) {
+        throw new Error('API returned invalid JSON response. If running locally, please ensure you use \'vercel dev\'.');
+      }
+
+      if (!data.url) {
+        throw new Error('Stripe Checkout URL was not returned by the API.');
+      }
+
+      console.log('[BookingStatus] Redirecting to Stripe Checkout:', data.url);
+      window.location.href = data.url; // Redirect to Stripe Checkout
     } catch (err: any) {
       console.error('[BookingStatus] Payment Initiation Error:', err);
       setError(err.message || 'Could not redirect to Stripe. Please try clicking Retry Payment.');
