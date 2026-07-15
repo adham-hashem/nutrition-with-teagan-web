@@ -99,6 +99,7 @@ export default async function handler(req: any, res: any) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       customer_email: booking.client_email,
+      expires_at: Math.floor(Date.now() / 1000) + 40 * 60, // Expire session in 40 minutes (Stripe min is 30 mins)
       line_items: [
         {
           price_data: {

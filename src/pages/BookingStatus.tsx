@@ -181,6 +181,7 @@ export default function BookingStatus() {
   // If URL has status=success, OR database already says status=confirmed and payment=paid, show Success.
   // Else, show Cancel/Retry payment UI.
   const isPaid = urlStatus === 'success' || (booking.status === 'confirmed' && booking.payment_status === 'paid');
+  const isCancelled = booking.status === 'cancelled';
 
   return (
     <div className="pt-28 lg:pt-36 pb-20 min-h-screen flex items-center justify-center px-6" style={{ background: '#FAF8F3' }}>
@@ -260,6 +261,27 @@ export default function BookingStatus() {
               className="inline-block px-8 py-3.5 rounded-full bg-sage text-white font-montserrat text-sm font-semibold hover:bg-sage-dark transition-all duration-300 shadow-soft hover:-translate-y-0.5"
             >
               Return Home
+            </Link>
+          </div>
+        ) : isCancelled ? (
+          /* EXPIRED/CANCELLED STATE */
+          <div className="text-center">
+            <div className="w-20 h-20 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-8">
+              <AlertCircle size={40} className="text-red-500" />
+            </div>
+            <h1 className="font-playfair text-3.5xl font-medium text-text-primary mb-3">Reservation Expired</h1>
+            <p className="font-montserrat text-sm text-text-secondary leading-relaxed mb-3">
+              The 45-minute reservation window for this slot has expired, and the appointment has been released back to the public.
+            </p>
+            <p className="font-montserrat text-xs text-text-light mb-8">
+              If you still wish to book a consultation, please select a new slot from the booking page.
+            </p>
+
+            <Link
+              to="/booking"
+              className="inline-block px-8 py-3.5 rounded-full bg-sage text-white font-montserrat text-sm font-semibold hover:bg-sage-dark transition-all duration-300 shadow-soft hover:-translate-y-0.5"
+            >
+              Book a New Appointment
             </Link>
           </div>
         ) : (
