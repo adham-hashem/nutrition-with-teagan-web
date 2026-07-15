@@ -28,10 +28,12 @@ export type Database = {
           programme_id: string | null;
           scheduled_at: string;
           duration_minutes: number;
-          status: 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
+          status: 'pending' | 'pending_payment' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
           notes: string | null;
           created_at: string;
           updated_at: string;
+          payment_status: 'pending' | 'paid' | 'failed';
+          stripe_session_id: string | null;
         };
         Insert: {
           id?: string;
@@ -42,10 +44,12 @@ export type Database = {
           programme_id?: string | null;
           scheduled_at: string;
           duration_minutes?: number;
-          status?: 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
+          status?: 'pending' | 'pending_payment' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
           notes?: string | null;
           created_at?: string;
           updated_at?: string;
+          payment_status?: 'pending' | 'paid' | 'failed';
+          stripe_session_id?: string | null;
         };
         Update: {
           id?: string;
@@ -56,10 +60,12 @@ export type Database = {
           programme_id?: string | null;
           scheduled_at?: string;
           duration_minutes?: number;
-          status?: 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
+          status?: 'pending' | 'pending_payment' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
           notes?: string | null;
           created_at?: string;
           updated_at?: string;
+          payment_status?: 'pending' | 'paid' | 'failed';
+          stripe_session_id?: string | null;
         };
       };
       programmes: {

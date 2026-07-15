@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, CheckCircle2, Clock, Video, Calendar, Tag, Loader2, X, MapPin, Users, Package } from 'lucide-react';
 import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
-import { Link } from '../router';
+import { Link, useRouter } from '../router';
 import { supabase } from '../lib/supabase';
 
 interface Service {
@@ -75,6 +75,7 @@ const formatPrice = (pence: number) => {
 };
 
 export default function Booking() {
+  const { navigate } = useRouter();
   // Dynamic data - services for Step 1, programmes for Step 2
   const [services, setServices] = useState<Service[]>([]);
   const [programmes, setProgrammes] = useState<Programme[]>([]);
@@ -199,7 +200,7 @@ export default function Booking() {
     const { data } = await supabase
       .from('bookings')
       .select('scheduled_at, duration_minutes')
-      .eq('status', 'confirmed')
+      .in('status', ['confirmed', 'pending_payment'])
       .gte('scheduled_at', startOfDay.toISOString())
       .lte('scheduled_at', endOfDay.toISOString());
 
@@ -457,7 +458,8 @@ export default function Booking() {
         programme_id: selectedProgramme,
         scheduled_at: scheduledAt.toISOString(),
         duration_minutes: selectedServiceData.duration_minutes,
-        status: 'pending',
+        status: 'pending_payment',
+        payment_status: 'pending',
         notes: form.notes || null,
         consultation_type: selectedType,
         discount_code: appliedDiscount?.code || null,
@@ -469,30 +471,19 @@ export default function Booking() {
         medications: form.medications || null,
       };
 
-      const { error } = await supabase.from('bookings').insert(bookingData);
+      const { data, error } = await supabase
+        .from('bookings')
+        .insert(bookingData)
+        .select('id')
+        .single();
 
-      if (error) {
+      if (error || !data) {
         console.error('Booking error:', error);
         setSubmitError('Failed to submit booking. Please try again.');
         setSubmitted(false);
       } else {
-        // Trigger Telegram notification via our serverless endpoint
-        try {
-          const selectedProgrammeData = selectedProgramme ? programmes.find(p => p.id === selectedProgramme) : null;
-          await fetch('/api/send-telegram', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              ...bookingData,
-              service_title: selectedServiceData.title,
-              programme_title: selectedProgrammeData?.title || null,
-            }),
-          });
-        } catch (notifierErr) {
-          console.error('[Telegram Notifier] Failed to send notification request:', notifierErr);
-        }
+        // Redirect to booking status status/payment page
+        navigate(`/booking/status?booking_id=${data.id}&action=pay`);
       }
     } catch (err) {
       console.error('Booking submission error:', err);

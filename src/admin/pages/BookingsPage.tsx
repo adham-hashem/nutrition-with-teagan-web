@@ -30,7 +30,7 @@ interface Booking {
   programme_id: string | null;
   scheduled_at: string;
   duration_minutes: number;
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
+  status: 'pending' | 'pending_payment' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
   notes: string | null;
   created_at: string;
   programmes?: { title: string } | null;
@@ -43,6 +43,7 @@ interface Programme {
 
 const statusConfig = {
   pending: { color: 'bg-yellow-mellow/10 text-yellow-mellow-dark', icon: AlertCircle },
+  pending_payment: { color: 'bg-lilac/15 text-lilac-dark', icon: Clock },
   confirmed: { color: 'bg-sage/10 text-sage', icon: CheckCircle2 },
   completed: { color: 'bg-sage/10 text-sage', icon: CheckCircle2 },
   cancelled: { color: 'bg-red-100 text-red-600', icon: XCircle },
@@ -264,6 +265,7 @@ export default function BookingsPage() {
             >
               <option value="all">All Statuses</option>
               <option value="pending">Pending</option>
+              <option value="pending_payment">Pending Payment</option>
               <option value="confirmed">Confirmed</option>
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
@@ -590,6 +592,7 @@ export default function BookingsPage() {
                   className="w-full px-4 py-2.5 rounded-xl border border-sage/20 font-montserrat text-sm disabled:bg-cream"
                 >
                   <option value="pending">Pending</option>
+                  <option value="pending_payment">Pending Payment</option>
                   <option value="confirmed">Confirmed</option>
                   <option value="completed">Completed</option>
                   <option value="cancelled">Cancelled</option>

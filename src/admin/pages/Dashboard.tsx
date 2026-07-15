@@ -76,7 +76,7 @@ export default function Dashboard() {
             supabase
               .from('bookings')
               .select('id', { count: 'exact', head: true })
-              .eq('status', 'pending'),
+              .in('status', ['pending', 'pending_payment']),
             supabase
               .from('contact_messages')
               .select('id', { count: 'exact', head: true })

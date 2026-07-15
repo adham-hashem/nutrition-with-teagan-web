@@ -1,8 +1,14 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/((?!api/|node_modules/|@vite|@react-refresh|@id|src/)[^.]*)",
       "destination": "/index.html"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cancel-stale-bookings",
+      "schedule": "*/10 * * * *"
     }
   ]
 }
