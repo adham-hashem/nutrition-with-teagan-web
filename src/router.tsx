@@ -10,6 +10,7 @@ const RouterContext = createContext<RouterContextType>({
   navigate: () => {},
 });
 
+
 export function Router({ children }: { children: ReactNode }) {
   const [pathname, setPathname] = useState(() => window.location.pathname);
 
