@@ -17,6 +17,7 @@ import BookingStatus from './pages/BookingStatus';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 
+
 function PublicLayout() {
   const pathname = usePathname();
   const isBooking = pathname === '/booking' || pathname === '/booking/status';
