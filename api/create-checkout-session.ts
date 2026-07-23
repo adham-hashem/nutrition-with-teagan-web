@@ -40,8 +40,10 @@ export default async function handler(req: any, res: any) {
 
     if (fetchError || !booking) {
       console.error('[Stripe Session] Error fetching booking:', fetchError);
-      return res.status(404).json({ message: 'Booking not found' });
+      return res.status(404).json({ message: 'Booking not found', details: fetchError?.message });
     }
+
+    console.log('[Stripe Session] Booking fetched:', { id: booking.id, status: booking.status, final_price: booking.final_price, original_price: booking.original_price });
 
     // 2. Validate status is pending_payment
     if (booking.status !== 'pending_payment') {
@@ -76,17 +78,23 @@ export default async function handler(req: any, res: any) {
     }
 
     // Ensure final_price is valid (it is stored in pence, e.g. 18000 for £180)
-    const pricePence = booking.final_price || 0;
+    // Fall back to original_price if final_price is missing (shouldn't happen but be safe)
+    const pricePence = booking.final_price || booking.original_price || 0;
+    console.log('[Stripe Session] Price in pence:', pricePence, '(final_price:', booking.final_price, ', original_price:', booking.original_price, ')');
     if (pricePence <= 0) {
-      return res.status(400).json({ message: 'Invalid booking price' });
+      return res.status(400).json({ message: `Invalid booking price: final_price=${booking.final_price}, original_price=${booking.original_price}` });
     }
 
     // 4. Create Stripe Checkout Session
+    // Use the request host to determine the base URL for redirects
+    const forwardedHost = req.headers['x-forwarded-host'];
+    const host = forwardedHost || req.headers.host || 'nutritionwithteagan.com';
+    const protocol = (req.headers['x-forwarded-proto'] || 'https').split(',')[0].trim();
     const baseUrl = process.env.VERCEL_ENV === 'production'
       ? 'https://www.nutritionwithteagan.com'
-      : (process.env.VERCEL_URL 
-          ? `https://${process.env.VERCEL_URL}` 
-          : (req.headers.origin || 'http://localhost:5173'));
+      : `${protocol}://${host}`;
+
+    console.log('[Stripe Session] Base URL:', baseUrl, '(VERCEL_ENV:', process.env.VERCEL_ENV, ')');
 
     const successUrl = process.env.STRIPE_SUCCESS_URL 
       ? process.env.STRIPE_SUCCESS_URL.replace('{CHECKOUT_SESSION_ID}', '{CHECKOUT_SESSION_ID}')
