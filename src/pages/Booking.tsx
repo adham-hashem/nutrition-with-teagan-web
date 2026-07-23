@@ -479,15 +479,17 @@ export default function Booking() {
 
       if (error || !data) {
         console.error('Booking error:', error);
-        setSubmitError('Failed to submit booking. Please try again.');
+        const errMsg = error?.message || error?.details || 'Unknown database error';
+        setSubmitError(`Failed to submit booking: ${errMsg}. Please try again.`);
         setSubmitting(false);
       } else {
-        // Redirect to booking status status/payment page
+        // Redirect to booking status/payment page
         navigate(`/booking/status?booking_id=${data.id}&action=pay`);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Booking submission error:', err);
-      setSubmitError('An error occurred. Please try again.');
+      const errMsg = err?.message || 'Unknown error';
+      setSubmitError(`An error occurred: ${errMsg}. Please try again.`);
       setSubmitting(false);
     }
   };
@@ -1048,6 +1050,14 @@ export default function Booking() {
                       By submitting this booking request, you agree that your information will be used to facilitate your consultation with Teagan. You will receive a confirmation email within 24 hours. Payment will be collected prior to your appointment.
                     </p>
                   </div>
+
+                  {submitError && (
+                    <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-5 mb-6">
+                      <p className="font-montserrat text-sm text-red-700 font-medium">
+                        {submitError}
+                      </p>
+                    </div>
+                  )}
 
                   <form onSubmit={handleSubmit}>
                     <button
