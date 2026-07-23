@@ -334,11 +334,32 @@ export default function BookingStatus() {
                 </div>
               </div>
 
+              <div className="border-t border-sage/10 pt-4 mb-6">
+                <p className="font-montserrat text-xs font-semibold text-text-light mb-2.5">Accepted Payment Methods:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-sage/10 rounded-full text-xs font-montserrat font-medium text-text-secondary flex items-center gap-1.5">
+                    💳 Cards
+                  </span>
+                  <span className="px-3 py-1 bg-sage/10 rounded-full text-xs font-montserrat font-medium text-text-secondary flex items-center gap-1.5">
+                    🍏 Apple Pay
+                  </span>
+                  <span className="px-3 py-1 bg-sage/10 rounded-full text-xs font-montserrat font-medium text-text-secondary flex items-center gap-1.5">
+                    🌐 Google Pay
+                  </span>
+                  <span className="px-3 py-1 bg-sage/10 rounded-full text-xs font-montserrat font-medium text-text-secondary flex items-center gap-1.5">
+                    ⚡ Stripe Link
+                  </span>
+                  <span className="px-3 py-1 bg-sage/10 rounded-full text-xs font-montserrat font-medium text-text-secondary flex items-center gap-1.5">
+                    🛍️ Klarna
+                  </span>
+                </div>
+              </div>
+
               <button
                 onClick={() => initiatePayment(booking.id)}
                 className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-sage text-white font-montserrat text-sm font-semibold hover:bg-sage-dark transition-all duration-300 shadow-soft hover:-translate-y-0.5 active:translate-y-0"
               >
-                <CreditCard size={18} /> Retry Payment & Confirm Booking
+                <CreditCard size={18} /> Complete Secure Payment
               </button>
             </div>
 
