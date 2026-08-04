@@ -226,7 +226,7 @@ export default function TestimonialsPage() {
               </div>
 
               {/* Quote */}
-              <blockquote className="font-playfair text-sm text-text-secondary italic leading-relaxed flex-1 mb-4">
+              <blockquote className="font-montserrat text-sm text-text-secondary leading-relaxed flex-1 mb-4">
                 "{testimonial.quote}"
               </blockquote>
 

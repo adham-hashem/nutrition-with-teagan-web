@@ -601,7 +601,7 @@ export default function Home() {
                       <Star key={j} size={14} className="text-yellow-mellow-dark fill-yellow-mellow-dark" />
                     ))}
                   </div>
-                  <blockquote className="font-playfair text-lg font-medium text-text-heading leading-relaxed flex-1 mb-6 italic">
+                  <blockquote className="font-montserrat text-sm text-text-body leading-relaxed flex-1 mb-6">
                     "{t.quote}"
                   </blockquote>
                   <div>

@@ -16,8 +16,6 @@ interface Testimonial {
 }
 
 const stats = [
-  { number: '200+', label: 'Women Supported' },
-  { number: '6+', label: 'Years Experience' },
   { number: '98%', label: 'Client Satisfaction' },
   { number: '4', label: 'Specialisations' },
 ];
@@ -111,7 +109,7 @@ export default function Testimonials() {
 
       {/* Stats */}
       <section className="py-12 px-6" style={{ background: '#F4EFE6' }}>
-        <div className="max-w-4xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="max-w-2xl mx-auto grid grid-cols-2 gap-6">
           {stats.map((stat, i) => (
             <ScrollReveal key={stat.label} delay={i * 80}>
               <div className="text-center py-6">
@@ -144,7 +142,7 @@ export default function Testimonials() {
                             <Star key={j} size={14} className="text-yellow-mellow fill-yellow-mellow" />
                           ))}
                         </div>
-                        <blockquote className="font-playfair text-xl text-text-primary leading-relaxed flex-1 mb-7 italic">
+                        <blockquote className="font-montserrat text-lg text-text-body leading-relaxed flex-1 mb-7">
                           "{t.quote}"
                         </blockquote>
                         <div className="flex items-center gap-4 pt-5 border-t border-sage/15">
@@ -178,7 +176,7 @@ export default function Testimonials() {
                             <Star key={j} size={13} className="text-yellow-mellow fill-yellow-mellow" />
                           ))}
                         </div>
-                        <blockquote className="font-playfair text-base text-text-primary leading-relaxed flex-1 mb-6 italic">
+                        <blockquote className="font-montserrat text-sm text-text-body leading-relaxed flex-1 mb-6">
                           "{t.quote}"
                         </blockquote>
                         <div className="flex items-center gap-3 pt-5 border-t border-sage/15">
