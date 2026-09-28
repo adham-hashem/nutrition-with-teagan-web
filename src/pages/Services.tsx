@@ -111,7 +111,7 @@ export default function Services() {
         if (error) throw error;
 
         if (data) {
-          const mapped: ConsultationOption[] = data.map((s) => {
+          const mapped: ConsultationOption[] = data.filter((s) => /initial|follow.?up/i.test(s.title)).map((s) => {
             const formattedPrice = new Intl.NumberFormat('en-GB', {
               style: 'currency',
               currency: 'GBP',

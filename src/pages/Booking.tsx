@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, CheckCircle2, Clock, Video, Calendar, Tag, Loader2, X, MapPin, Users, Package } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle2, Clock, Video, Calendar, Tag, Loader2, X, MapPin, Users } from 'lucide-react';
 import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { Link, useRouter } from '../router';
@@ -76,7 +76,7 @@ const formatPrice = (pence: number) => {
 
 export default function Booking() {
   const { navigate } = useRouter();
-  // Dynamic data - services for Step 1, programmes for Step 2
+  // Dynamic consultation data
   const [services, setServices] = useState<Service[]>([]);
   const [programmes, setProgrammes] = useState<Programme[]>([]);
   const [loading, setLoading] = useState(true);
@@ -93,7 +93,7 @@ export default function Booking() {
 
   const [step, setStep] = useState(1);
   const [selectedService, setSelectedService] = useState('');
-  const [selectedProgramme, setSelectedProgramme] = useState<string | null>(null); // Optional
+  const [selectedProgramme] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<'online' | 'in_person' | 'hybrid'>('online');
   const today = new Date();
   const [calYear, setCalYear] = useState(today.getFullYear());
@@ -147,7 +147,7 @@ export default function Booking() {
       ]);
 
       if (servicesData.data) {
-        setServices(servicesData.data as Service[]);
+        setServices((servicesData.data as Service[]).filter((service) => /initial|follow.?up/i.test(service.title)));
       }
 
       if (programmesData.data) {
@@ -644,80 +644,9 @@ export default function Booking() {
               <ScrollReveal>
                 <div className="p-5 sm:p-9">
                   <div className="flex items-center justify-between mb-2">
-                    <h2 className="font-playfair text-2xl font-bold text-text-heading">Select Your Programme</h2>
-                    <span className="px-3 py-1 rounded-full bg-sage/10 text-sage-dark font-montserrat text-xs font-bold">Optional</span>
+                    <h2 className="font-playfair text-2xl font-bold text-text-heading">Your Consultation</h2>
                   </div>
-                  <p className="font-montserrat text-sm text-text-body mb-8">Enhance your consultation with a structured wellness programme. You can also complete your booking without selecting a programme.</p>
-
-                  <div className="space-y-4">
-                    {programmes.map((programme) => {
-                      const isSelected = selectedProgramme === programme.id;
-
-                      return (
-                        <button
-                          key={programme.id}
-                          onClick={() => setSelectedProgramme(isSelected ? null : programme.id)}
-                          className={`w-full text-left rounded-2xl border-2 p-4 sm:p-5 transition-all duration-300 ${
-                            isSelected
-                              ? 'border-sage-dark bg-sage/5'
-                              : 'border-sage/30 hover:border-sage-dark'
-                          }`}
-                        >
-                          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-3 mb-1">
-                                <h3 className="font-playfair text-lg font-bold text-text-heading">{programme.title}</h3>
-                                {programme.is_featured && programme.tag && (
-                                  <span
-                                    className="px-2 py-0.5 rounded-full font-montserrat text-[10px] font-bold text-text-heading"
-                                    style={{ background: programme.tag_color || '#98A88B' }}
-                                  >
-                                    {programme.tag}
-                                  </span>
-                                )}
-                              </div>
-                              {programme.subtitle && (
-                                <p className="font-montserrat text-xs text-sage-dark mb-1">{programme.subtitle}</p>
-                              )}
-                              <p className="font-montserrat text-sm text-text-body mb-2">{programme.description}</p>
-                              <span className="flex items-center gap-1.5 font-montserrat text-xs text-text-body">
-                                <Clock size={12} /> {programme.duration_weeks} weeks
-                              </span>
-                            </div>
-                            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 flex-shrink-0 border-t sm:border-t-0 border-sage/10 pt-3 sm:pt-0">
-                              <p className="font-playfair text-xl font-bold text-sage-dark">{formatPrice(programme.price_pence)}</p>
-                              {isSelected && (
-                                <CheckCircle2 size={18} className="text-sage-dark ml-auto mt-0 sm:mt-2" />
-                              )}
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Skip option */}
-                  <button
-                    onClick={() => setSelectedProgramme(null)}
-                    className={`w-full mt-4 text-left rounded-2xl border-2 p-4 sm:p-5 transition-all duration-300 ${
-                      selectedProgramme === null
-                        ? 'border-sage-dark bg-sage/5'
-                        : 'border-sage/20 hover:border-sage/40'
-                    }`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-sage/10 flex items-center justify-center flex-shrink-0">
-                        <X size={20} className="text-sage-dark" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-playfair text-lg font-bold text-text-heading">No Programme</h3>
-                        <p className="font-montserrat text-xs text-text-body">Continue with consultation only. You can always add a programme later.</p>
-                      </div>
-                      {selectedProgramme === null && (
-                        <CheckCircle2 size={18} className="text-sage-dark flex-shrink-0" />
-                      )}
-                    </div>
-                  </button>
+                  <p className="font-montserrat text-sm text-text-body mb-8">Wellness programmes are coming soon. Continue with your initial or follow-up consultation.</p>
 
                   {/* Discount Code Section */}
                   <div className="mt-8 pt-6 border-t border-sage/20">

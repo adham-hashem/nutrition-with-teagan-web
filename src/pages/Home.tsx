@@ -110,70 +110,15 @@ interface ArticleItem {
   date: string;
 }
 
-interface ProgrammeItem {
-  id: string;
-  title: string;
-  duration: string;
-  price: string;
-  description: string;
-  image: string;
-  tag: string;
-  tagColor: string;
-}
-
-const defaultProgrammes: ProgrammeItem[] = [
-  {
-    id: '1',
-    title: 'Hormone Reset Programme',
-    duration: '12 Weeks',
-    price: 'From £350',
-    description: 'A comprehensive hormonal healing protocol addressing PCOS, PMS, cycle irregularities, and more.',
-    image: 'https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=600',
-    tag: 'Most Popular',
-    tagColor: '#A999C2',
-  },
-  {
-    id: '2',
-    title: 'Gut Healing Programme',
-    duration: '8 Weeks',
-    price: 'From £350',
-    description: 'Restore your gut microbiome, eliminate bloating, and achieve lasting digestive wellness.',
-    image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600',
-    tag: 'Bestseller',
-    tagColor: '#9FAF93',
-  },
-  {
-    id: '3',
-    title: 'Skin Health Programme',
-    duration: '10 Weeks',
-    price: 'From £320',
-    description: 'Address acne, eczema, and skin inflammation through an inside-out nutritional approach.',
-    image: 'https://images.pexels.com/photos/3373716/pexels-photo-3373716.jpeg?auto=compress&cs=tinysrgb&w=600',
-    tag: 'Transformative',
-    tagColor: '#D8C26D',
-  },
-  {
-    id: '4',
-    title: 'Metabolic Wellness Programme',
-    duration: '10 Weeks',
-    price: 'From £380',
-    description: 'Balance blood sugar, support thyroid health, and restore your natural energy and vitality.',
-    image: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=600',
-    tag: 'Revitalising',
-    tagColor: '#D8C89B',
-  },
-];
-
 export default function Home() {
   const offset = useParallax();
   const [recentArticles, setRecentArticles] = useState<ArticleItem[]>([]);
   const [recentTestimonials, setRecentTestimonials] = useState(staticTestimonials);
-  const [featuredProgrammes, setFeaturedProgrammes] = useState<ProgrammeItem[]>(defaultProgrammes);
 
   useEffect(() => {
     async function fetchHomeData() {
       try {
-        const [postsRes, testRes, progRes] = await Promise.all([
+        const [postsRes, testRes] = await Promise.all([
           supabase
             .from('blog_posts')
             .select('*, blog_categories(name)')
@@ -186,11 +131,6 @@ export default function Home() {
             .eq('is_approved', true)
             .order('display_order', { ascending: true })
             .limit(3),
-          supabase
-            .from('programmes')
-            .select('*')
-            .eq('is_active', true)
-            .order('display_order', { ascending: true })
         ]);
 
         if (postsRes && postsRes.data && postsRes.data.length > 0) {
@@ -216,26 +156,6 @@ export default function Home() {
           })));
         }
 
-        if (progRes && progRes.data && progRes.data.length > 0) {
-          setFeaturedProgrammes(progRes.data.map(p => {
-            const formattedPrice = new Intl.NumberFormat('en-GB', {
-              style: 'currency',
-              currency: 'GBP',
-              minimumFractionDigits: 0,
-            }).format(p.price_pence / 100);
-
-            return {
-              id: p.id,
-              title: p.title,
-              duration: `${p.duration_weeks} Weeks`,
-              price: `From ${formattedPrice}`,
-              description: p.description || '',
-              image: p.image_url || 'https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=600',
-              tag: p.tag || '',
-              tagColor: p.tag_color || '#9FAF93',
-            };
-          }));
-        }
       } catch (error) {
         console.error('Error fetching home data:', error);
       }
@@ -508,58 +428,15 @@ export default function Home() {
           <ScrollReveal>
             <div className="text-center mb-16">
               <p className="section-tag">Wellness Programmes</p>
-              <h2 className="section-title mb-4">
-                Transformative Programmes<br />
-                <em className="not-italic text-sage-dark">Designed for You</em>
-              </h2>
+              <h2 className="section-title mb-4">Transformative Programmes</h2>
+              <p className="section-subtitle">Coming soon</p>
             </div>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {featuredProgrammes.map((program, i) => (
-              <ScrollReveal key={program.id || program.title} delay={i * 100}>
-                <div className="group bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500 hover:border-sage/30" style={{ border: '1px solid rgba(122, 139, 112, 0.08)' }}>
-                  <div className="relative overflow-hidden h-52">
-                    <img
-                      src={program.image}
-                      alt={program.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                    <span
-                      className="absolute top-4 left-4 font-montserrat text-xs font-bold tracking-wider uppercase px-3 py-1.5 rounded-full text-text-heading"
-                      style={{ background: program.tagColor }}
-                    >
-                      {program.tag}
-                    </span>
-                  </div>
-                  <div className="p-8">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-montserrat text-xs font-bold text-text-small uppercase tracking-wider">{program.duration}</span>
-                      <span className="font-playfair text-lg font-bold text-sage-dark">{program.price}</span>
-                    </div>
-                    <h3 className="font-playfair text-2xl font-bold text-text-heading mb-3">{program.title}</h3>
-                    <p className="font-montserrat text-sm font-medium text-text-body leading-relaxed mb-6">{program.description}</p>
-                    <div className="flex gap-3">
-                      <Link to="/programs" className="btn-outline text-xs px-5 py-3">
-                        Learn More
-                      </Link>
-                      <Link to="/booking" className="btn-booking text-xs px-5 py-3">
-                        Book Now
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-
-          <ScrollReveal delay={300}>
-            <div className="text-center mt-12">
-              <Link to="/programs" className="btn-outline">
-                View All Programmes <ArrowRight size={15} />
-              </Link>
+          <ScrollReveal delay={100}>
+            <div className="text-center">
+              <p className="font-montserrat text-sm font-medium text-text-body mb-8">For now, book an initial or follow-up consultation.</p>
+              <Link to="/booking" className="btn-booking">Book a Consultation <ArrowRight size={15} /></Link>
             </div>
           </ScrollReveal>
         </div>
