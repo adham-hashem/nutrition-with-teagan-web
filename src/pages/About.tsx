@@ -89,13 +89,16 @@ export default function About() {
               </h2>
               <div className="space-y-5 font-montserrat text-base text-text-secondary leading-[1.85]">
                 <p>
-                  Teagan's journey into naturopathic nutrition began with her own health struggles. After years of battling hormonal imbalances, debilitating PMS, and persistent skin concerns — and feeling dismissed by conventional medicine — she discovered the profound power of food as medicine.
+                  My journey into naturopathic nutrition began with my own struggle with cystic acne, PMS, and feeling disconnected from my body. For years, I tried to understand my persistent breakouts and hormonal symptoms, often feeling like I was being offered quick fixes rather than answers. It was through my own experience that I discovered the powerful connection between nutrition, hormones, gut health, and skin — and began to understand just how much our health can influence the way we feel in our bodies.
                 </p>
                 <p>
-                  This personal transformation sparked a passion for holistic women's health that led her to pursue a Diploma in nutritional therapy, where she trained in evidence-based naturopathic nutrition, herbal medicine, and functional testing.
+                  That personal transformation sparked a passion for holistic women’s health and a desire to help other women understand and support their health from the inside out. I went on to complete a Diploma in Nutritional Therapy, where I trained in evidence-based naturopathic nutrition and functional testing.
                 </p>
                 <p>
-                  Today, Teagan combines her clinical expertise with genuine empathy to help women across the UK and beyond reclaim their vitality, balance their hormones, heal their gut, and glow from the inside out.
+                  Today, I work with women across the UK and beyond to support a range of hormone, gut, skin, and nutritional concerns. Whether you're struggling with hormonal acne, PMS, cycle symptoms, digestive issues, low energy, or simply feel that something isn't quite right, my approach is centred around understanding the bigger picture and exploring the underlying factors that may be contributing to your symptoms.
+                </p>
+                <p>
+                  I combine my clinical expertise with genuine empathy and my own lived experience to help you better understand your body, support your health, and feel more like yourself again.
                 </p>
               </div>
               <div className="mt-8">
@@ -188,7 +191,6 @@ export default function About() {
                   'Personalised written nutrition plan',
                   'Supplement and lifestyle recommendations',
                   'Follow-up support via messaging',
-                  'Access to client portal and resources',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full bg-sage flex-shrink-0" />

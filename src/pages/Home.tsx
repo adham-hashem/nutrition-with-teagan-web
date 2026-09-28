@@ -298,7 +298,7 @@ export default function Home() {
               Supporting women through evidence-based naturopathic nutrition for hormone health, gut health, skin concerns, and metabolic wellness.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-8 lg:mb-12">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/booking" className="btn-booking btn-pulse">
                 Book a Consultation
                 <ArrowRight size={15} />
@@ -308,17 +308,6 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Social proof */}
-            <div className="flex items-center gap-6 pt-5 lg:pt-6" style={{ borderTop: '2px solid #8A9C7A' }}>
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} className="text-yellow-mellow-dark fill-yellow-mellow-dark" />
-                ))}
-              </div>
-              <p className="font-montserrat text-sm font-medium text-text-body">
-                <span className="font-bold text-text-heading">200+ women</span> supported through their wellness journey
-              </p>
-            </div>
           </div>
 
           {/* Right Image ─ responsive image heights */}
@@ -421,7 +410,7 @@ export default function Home() {
                 />
               </div>
               <div className="absolute top-8 -right-6 glass-lilac rounded-2xl p-5 shadow-soft max-w-[180px]">
-                <p className="font-playfair text-2xl font-bold text-text-heading mb-1">6+ yrs</p>
+                <p className="font-playfair text-2xl font-bold text-text-heading mb-1">3+ yrs</p>
                 <p className="font-montserrat text-xs font-medium text-text-body">Clinical experience</p>
               </div>
               <div className="absolute -bottom-6 left-8 glass rounded-2xl p-5 shadow-luxury">
