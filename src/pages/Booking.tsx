@@ -147,7 +147,7 @@ export default function Booking() {
       ]);
 
       if (servicesData.data) {
-        setServices((servicesData.data as Service[]).filter((service) => /initial|follow.?up/i.test(service.title)));
+        setServices(servicesData.data as Service[]);
       }
 
       if (programmesData.data) {
