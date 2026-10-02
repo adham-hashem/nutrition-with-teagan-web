@@ -976,7 +976,7 @@ export default function Booking() {
 
                   <div className="bg-sage/8 border-2 border-sage/20 rounded-2xl p-5 mb-8">
                     <p className="font-montserrat text-xs text-text-body leading-relaxed">
-                      By submitting this booking request, you agree that your information will be used to facilitate your consultation with Teagan. You will receive a confirmation email within 24 hours. Payment will be collected prior to your appointment.
+                      By submitting this booking request, you agree that your information will be used to facilitate your consultation with Teagan. {getTotalPrice() === 0 ? 'This consultation is free, so no payment is required.' : 'Payment will be collected prior to your appointment.'}
                     </p>
                   </div>
 

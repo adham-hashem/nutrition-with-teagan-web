@@ -22,6 +22,7 @@ interface BookingDetails {
   status: string;
   payment_status: string;
   final_price: number;
+  original_price: number;
   booking_type: string;
   consultation_type: string;
   services?: { title: string } | null;
@@ -59,10 +60,10 @@ export default function BookingStatus() {
         } else {
           setBooking(data as BookingDetails);
           
-          // Auto-redirect to Stripe if status is pending payment and action is pay
+          // Complete free bookings or redirect paid bookings to Stripe.
           const action = params.get('action');
           if (action === 'pay' && data.status === 'pending_payment') {
-            initiatePayment(data.id);
+            initiatePayment(data as BookingDetails);
           }
         }
       } catch (err) {
@@ -76,17 +77,17 @@ export default function BookingStatus() {
     fetchBooking();
   }, [bookingId]);
 
-  async function initiatePayment(id: string) {
-    console.log('[BookingStatus] Initiating payment redirect for booking:', id);
+  async function initiatePayment(currentBooking: BookingDetails) {
+    const isFree = currentBooking.original_price === 0 && currentBooking.final_price === 0;
     setRedirecting(true);
     setError(null);
     try {
-      const response = await fetch('/api/create-checkout-session', {
+      const response = await fetch(isFree ? '/api/confirm-free-booking' : '/api/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ bookingId: id }),
+        body: JSON.stringify({ bookingId: currentBooking.id }),
       });
 
       console.log('[BookingStatus] API response status:', response.status, response.statusText);
@@ -107,6 +108,11 @@ export default function BookingStatus() {
         data = await response.json();
       } catch (jsonErr) {
         throw new Error('API returned invalid JSON response. If running locally, please ensure you use \'vercel dev\'.');
+      }
+
+      if (isFree && data.confirmed) {
+        setBooking({ ...currentBooking, status: 'confirmed', payment_status: 'paid' });
+        return;
       }
 
       if (!data.url) {
@@ -142,11 +148,11 @@ export default function BookingStatus() {
         <div className="text-center px-6">
           <Loader2 className="w-12 h-12 animate-spin text-sage mx-auto mb-6" />
           <h2 className="font-playfair text-2xl font-medium text-text-primary mb-2">
-            {redirecting ? 'Connecting to Stripe...' : 'Retrieving Booking...'}
+            {redirecting ? (booking?.final_price === 0 ? 'Confirming Booking...' : 'Connecting to Stripe...') : 'Retrieving Booking...'}
           </h2>
           <p className="font-montserrat text-sm text-text-light max-w-sm mx-auto leading-relaxed">
             {redirecting 
-              ? 'We are setting up your secure checkout session. You will be redirected shortly.' 
+              ? (booking?.final_price === 0 ? 'Please wait while we confirm your free appointment.' : 'We are setting up your secure checkout session. You will be redirected shortly.')
               : 'Please wait while we retrieve your reservation details.'}
           </p>
         </div>
@@ -180,7 +186,8 @@ export default function BookingStatus() {
   // Determine actual status state to show
   // If URL has status=success, OR database already says status=confirmed and payment=paid, show Success.
   // Else, show Cancel/Retry payment UI.
-  const isPaid = urlStatus === 'success' || (booking.status === 'confirmed' && booking.payment_status === 'paid');
+  const isPaid = (booking.status === 'confirmed' && booking.payment_status === 'paid') || (urlStatus === 'success' && booking.final_price > 0);
+  const isFree = booking.original_price === 0 && booking.final_price === 0;
   const isCancelled = booking.status === 'cancelled';
 
   return (
@@ -194,10 +201,10 @@ export default function BookingStatus() {
             </div>
             <h1 className="font-playfair text-3.5xl font-medium text-text-primary mb-3">Booking Confirmed!</h1>
             <p className="font-montserrat text-sm text-text-secondary leading-relaxed mb-2">
-              Thank you, <strong>{booking.client_name}</strong>. Your payment was successful and your appointment is locked in.
+              Thank you, <strong>{booking.client_name}</strong>. {isFree ? 'Your free appointment is confirmed.' : 'Your payment was successful and your appointment is locked in.'}
             </p>
             <p className="font-montserrat text-xs text-sage-dark font-medium mb-8">
-              A confirmation email and receipt have been sent to {booking.client_email}.
+              {isFree ? `Your booking details are shown below for ${booking.client_email}.` : `A confirmation email and receipt have been sent to ${booking.client_email}.`}
             </p>
 
             <div className="bg-white rounded-3xl p-8 shadow-soft text-left border border-sage/10 mb-8 transition-transform hover:scale-[1.01] duration-300">
@@ -239,7 +246,7 @@ export default function BookingStatus() {
                   <div>
                     <h4 className="font-montserrat text-xs font-semibold text-text-light">Service & Payment</h4>
                     <p className="font-montserrat text-sm font-medium text-text-primary">
-                      {getBookingTitle()} — <span className="text-sage font-bold">Paid ({formatPrice(booking.final_price)})</span>
+                      {getBookingTitle()} — <span className="text-sage font-bold">{isFree ? 'Free' : `Paid (${formatPrice(booking.final_price)})`}</span>
                     </p>
                   </div>
                 </div>
@@ -290,12 +297,12 @@ export default function BookingStatus() {
             <div className="w-20 h-20 rounded-full bg-yellow-mellow/15 flex items-center justify-center mx-auto mb-8">
               <AlertCircle size={40} className="text-yellow-mellow-dark" />
             </div>
-            <h1 className="font-playfair text-3.5xl font-medium text-text-primary mb-3">Payment Pending</h1>
+            <h1 className="font-playfair text-3.5xl font-medium text-text-primary mb-3">{isFree ? 'Booking Pending' : 'Payment Pending'}</h1>
             <p className="font-montserrat text-sm text-text-secondary leading-relaxed mb-3">
-              Your appointment slot is temporarily reserved for you for <strong>45 minutes</strong> while we wait for payment.
+              Your appointment slot is temporarily reserved for you for <strong>45 minutes</strong> {isFree ? 'while we confirm your booking.' : 'while we wait for payment.'}
             </p>
             <p className="font-montserrat text-xs text-red-600 font-medium mb-8">
-              Please complete payment below. If unpaid within 45 minutes, this slot will automatically release back to the public.
+              {isFree ? 'Please confirm below. If the reservation expires, choose a new slot.' : 'Please complete payment below. If unpaid within 45 minutes, this slot will automatically release back to the public.'}
             </p>
 
             <div className="bg-white rounded-3xl p-8 shadow-soft text-left border border-yellow-mellow/10 mb-8">
@@ -335,10 +342,10 @@ export default function BookingStatus() {
               </div>
 
               <button
-                onClick={() => initiatePayment(booking.id)}
+                onClick={() => initiatePayment(booking)}
                 className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-sage text-white font-montserrat text-sm font-semibold hover:bg-sage-dark transition-all duration-300 shadow-soft hover:-translate-y-0.5 active:translate-y-0"
               >
-                <CreditCard size={18} /> Retry Payment & Confirm Booking
+                <CreditCard size={18} /> {isFree ? 'Confirm Free Booking' : 'Retry Payment & Confirm Booking'}
               </button>
             </div>
 
